@@ -1,6 +1,8 @@
 package edu.byu.cs.tweeter.client.presenter;
 
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.LoginService;
+import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class LoginPresenter {
@@ -24,8 +26,11 @@ public class LoginPresenter {
     public class LoginObserver implements LoginService.LoginObserver {
 
         @Override
-        public void handleSuccess(User loggedInUser, String message) {
-            view.login(loggedInUser, message);
+        public void handleSuccess(User loggedInUser, AuthToken authToken) {
+            // Cache user session information
+            Cache.getInstance().setCurrUser(loggedInUser);
+            Cache.getInstance().setCurrUserAuthToken(authToken);
+            view.login(loggedInUser, "Hello " + Cache.getInstance().getCurrUser().getName());
         }
 
         @Override

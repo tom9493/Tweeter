@@ -57,35 +57,18 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
             public void onClick(View view) {
                 // Login and move to MainActivity.
                 try {
-                    validateLogin();
+                    presenter.login(alias.getText().toString(), password.getText().toString());
                     errorView.setText(null);
 
                     loginInToast = Toast.makeText(getContext(), "Logging In...", Toast.LENGTH_LONG);
                     loginInToast.show();
-
-                    // Send the login request.
-                    presenter.login(alias.getText().toString(), password.getText().toString());
                 } catch (Exception e) {
                     errorView.setText(e.getMessage());
                 }
             }
         });
-
         return view;
     }
-
-    public void validateLogin() {
-        if (alias.getText().charAt(0) != '@') {
-            throw new IllegalArgumentException("Alias must begin with @.");
-        }
-        if (alias.getText().length() < 2) {
-            throw new IllegalArgumentException("Alias must contain 1 or more characters after the @.");
-        }
-        if (password.getText().length() == 0) {
-            throw new IllegalArgumentException("Password cannot be empty.");
-        }
-    }
-
 
     @Override
     public void login(User loggedInUser, String message) {
