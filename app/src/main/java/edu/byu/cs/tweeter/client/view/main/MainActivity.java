@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.logoutMenu) {
-            logOutToast = Toast.makeText(this, "Logging Outtt...", Toast.LENGTH_LONG);
+            logOutToast = Toast.makeText(this, "Logging Out...", Toast.LENGTH_LONG);
             logOutToast.show();
             presenter.logout();
             return true;
