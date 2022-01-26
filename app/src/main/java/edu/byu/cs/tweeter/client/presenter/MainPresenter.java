@@ -1,22 +1,23 @@
 package edu.byu.cs.tweeter.client.presenter;
 
-import java.util.List;
-
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.FollowService;
 import edu.byu.cs.tweeter.client.model.service.LoginService;
-import edu.byu.cs.tweeter.client.model.service.UserService;
-import edu.byu.cs.tweeter.model.domain.AuthToken;
+import edu.byu.cs.tweeter.client.model.service.StatusService;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class MainPresenter {
     private MainPresenter.View view;
     private FollowService followService;
     private LoginService loginService;
+    private StatusService statusService;
 
     public interface View {
         void displayErrorMessage(String message);
         void displayFollowButton(boolean isFollower);
+        void updateFollowing(int count);
+        void updateFollowers(int count);
+        void postSuccess(String message);
         void unfollow();
         void follow();
         void logout();
@@ -26,6 +27,7 @@ public class MainPresenter {
         this.view = view;
         followService = new FollowService();
         loginService = new LoginService();
+        statusService = new StatusService();
     }
 
     public void isFollower(User selectedUser) {
@@ -44,6 +46,16 @@ public class MainPresenter {
 
     public void logout() {
         loginService.logout(Cache.getInstance().getCurrUserAuthToken(), new LogoutObserver());
+    }
+
+    public void postStatus(String post) throws Exception {
+        statusService.postStatus(post, Cache.getInstance().getCurrUser(),
+                Cache.getInstance().getCurrUserAuthToken(), new PostStatusObserver());
+    }
+
+    public void updateSelectedUserFollowingAndFollowers(User selectedUser) {
+        followService.updateSelectedUserFollowingAndFollowers(Cache.getInstance().getCurrUserAuthToken(),
+        selectedUser, new GetFollowersCountObserver(), new GetFollowingCountObserver());
     }
 
     public User getCurrUser() { return Cache.getInstance().getCurrUser(); }
@@ -119,6 +131,60 @@ public class MainPresenter {
         @Override
         public void handleException(Exception ex) {
             view.displayErrorMessage("Failed to logout because of exception: " + ex.getMessage());
+        }
+    }
+
+    public class PostStatusObserver implements StatusService.PostStatusObserver {
+
+        @Override
+        public void handleSuccess() {
+            view.postSuccess("Successfully posted!");
+        }
+
+        @Override
+        public void handleFailure(String message) {
+            view.displayErrorMessage("Failed to post status: " + message);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayErrorMessage("Failed to post status because of exception: " + ex.getMessage());
+        }
+    }
+
+    public class GetFollowersCountObserver implements FollowService.GetFollowersCountObserver {
+
+        @Override
+        public void handleSuccess(int count) {
+            view.updateFollowers(count);
+        }
+
+        @Override
+        public void handleFailure(String message) {
+            view.displayErrorMessage("Failed to get followers count: " + message);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayErrorMessage("Failed to get followers count because of exception: " + ex.getMessage());
+        }
+    }
+
+    public class GetFollowingCountObserver implements FollowService.GetFollowingCountObserver {
+
+        @Override
+        public void handleSuccess(int count) {
+            view.updateFollowing(count);
+        }
+
+        @Override
+        public void handleFailure(String message) {
+            view.displayErrorMessage("Failed to get following count: " + message);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayErrorMessage("Failed to get following count because of exception: " + ex.getMessage());
         }
     }
 
