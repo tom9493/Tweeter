@@ -3,13 +3,13 @@ package edu.byu.cs.tweeter.client.presenter;
 import android.widget.ImageView;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
-import edu.byu.cs.tweeter.client.model.service.RegisterService;
+import edu.byu.cs.tweeter.client.model.service.LoginService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class RegisterPresenter {
     private RegisterPresenter.View view;
-    private RegisterService registerService;
+    private LoginService loginService;
 
     public interface View {
         void register(User registeredUser, String message);
@@ -18,14 +18,14 @@ public class RegisterPresenter {
 
     public RegisterPresenter(View view) {
         this.view = view;
-        this.registerService = new RegisterService();
+        this.loginService = new LoginService();
     }
 
     public void register(String firstName, String lastName, String alias, String password, ImageView imageToUpload) {
-        registerService.register(firstName, lastName, alias, password, imageToUpload, new RegisterPresenter.RegisterObserver());
+        loginService.register(firstName, lastName, alias, password, imageToUpload, new RegisterPresenter.RegisterObserver());
     }
 
-    public class RegisterObserver implements RegisterService.RegisterObserver {
+    public class RegisterObserver implements LoginService.RegisterObserver {
 
         @Override
         public void handleSuccess(User registeredUser, AuthToken authToken) {
