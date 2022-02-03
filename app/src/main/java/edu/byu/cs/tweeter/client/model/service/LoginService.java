@@ -159,7 +159,6 @@ public class LoginService {
             if (success) {
                 User registeredUser = (User) msg.getData().getSerializable(RegisterTask.USER_KEY);
                 AuthToken authToken = (AuthToken) msg.getData().getSerializable(RegisterTask.AUTH_TOKEN_KEY);
-
                 observer.handleSuccess(registeredUser, authToken);
             } else if (msg.getData().containsKey(RegisterTask.MESSAGE_KEY)) {
                 String message = msg.getData().getString(RegisterTask.MESSAGE_KEY);
