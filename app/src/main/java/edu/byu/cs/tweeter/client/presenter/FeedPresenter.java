@@ -10,6 +10,15 @@ import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
+// NEXT, THE VIEW INTERFACES HAVE A LOT IN COMMON, SO MAKE ONE THEY ALL INHERIT FROM, AS WELL AS
+// MORE SPECIFIC ONES LIKE WE DID FOR THE HANDLERS.
+
+// ALSO MAKE ANOTHER PRESENTER CLASS FOR THE FEED, STORY, FOLLOWERS, AND FOLLOWING PRESENTERS TO
+// INHERIT FROM WITH ALL THEIR DUPLICATION
+
+// ALSO, WE MAY NEED TO REDO THE USER THING WE DID WITH IT BEING IN ONLY ONE FRAGMENT. WILL
+// PROBABLY FIX ITSELF WHEN WE CAUSE THE 4 PRESENTERS TO INHERIT FROM THE SAME ONE
+
 public class FeedPresenter {
     private static final int PAGE_SIZE = 10;
     private FeedPresenter.View view;
