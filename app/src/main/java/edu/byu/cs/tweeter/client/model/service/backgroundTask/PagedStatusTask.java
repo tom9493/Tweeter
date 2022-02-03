@@ -11,8 +11,6 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public abstract class PagedStatusTask extends PagedTask<Status> {
 
-    public static final String STATUSES_KEY = "statuses";
-
     protected PagedStatusTask(AuthToken authToken, User targetUser, int limit, Status lastItem, Handler messageHandler) {
         super(authToken, targetUser, limit, lastItem, messageHandler);
     }

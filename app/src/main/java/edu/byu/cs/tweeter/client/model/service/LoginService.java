@@ -1,5 +1,6 @@
 package edu.byu.cs.tweeter.client.model.service;
 
+import android.app.Service;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import java.util.concurrent.Executors;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LoginTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LogoutTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.RegisterTask;
+import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.client.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.client.presenter.MainPresenter;
 import edu.byu.cs.tweeter.client.presenter.RegisterPresenter;
@@ -23,24 +25,6 @@ import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class LoginService {
-
-    public interface LoginObserver {
-        void handleSuccess(User loggedInUser, AuthToken authToken);
-        void handleFailure(String message);
-        void handleException(Exception exception);
-    }
-
-    public interface LogoutObserver {
-        void handleSuccess();
-        void handleFailure(String message);
-        void handleException(Exception exception);
-    }
-
-    public interface RegisterObserver {
-        void handleSuccess(User registeredUser, AuthToken authToken);
-        void handleFailure(String message);
-        void handleException(Exception exception);
-    }
 
     public void login(String alias, String password, LoginPresenter.LoginObserver loginObserver) {
         if (alias.charAt(0) != '@') {
@@ -105,9 +89,9 @@ public class LoginService {
      * Message handler (i.e., observer) for LoginTask
      */
     private class LoginHandler extends Handler {
-        private LoginObserver observer;
+        private ServiceObserver.LogRegObserver observer;
 
-        public LoginHandler(LoginObserver observer) { this.observer = observer; }
+        public LoginHandler(ServiceObserver.LogRegObserver observer) { this.observer = observer; }
         @Override
         public void handleMessage(@NonNull Message msg) {
             boolean success = msg.getData().getBoolean(LoginTask.SUCCESS_KEY);
@@ -128,9 +112,9 @@ public class LoginService {
     // LogoutHandler
 
     private class LogoutHandler extends Handler {
-        private final LogoutObserver observer;
+        private final ServiceObserver.SuccessObserver observer;
 
-        private LogoutHandler(LogoutObserver observer) {
+        private LogoutHandler(ServiceObserver.SuccessObserver observer) {
             this.observer = observer;
         }
 
@@ -150,9 +134,9 @@ public class LoginService {
     }
 
     private class RegisterHandler extends Handler {
-        private RegisterObserver observer;
+        private ServiceObserver.LogRegObserver observer;
 
-        public RegisterHandler(RegisterObserver observer) { this.observer = observer; }
+        public RegisterHandler(ServiceObserver.LogRegObserver observer) { this.observer = observer; }
         @Override
         public void handleMessage(@NonNull Message msg) {
             boolean success = msg.getData().getBoolean(RegisterTask.SUCCESS_KEY);

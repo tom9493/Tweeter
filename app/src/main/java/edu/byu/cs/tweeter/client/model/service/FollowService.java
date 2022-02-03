@@ -15,7 +15,9 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowersTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingCountTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.IsFollowerTask;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.PagedTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.UnfollowTask;
+import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.client.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.client.presenter.FollowingPresenter;
 import edu.byu.cs.tweeter.client.presenter.MainPresenter;
@@ -23,8 +25,6 @@ import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowService {
-
-    // Tasks
 
     public void getFollowing(AuthToken currUserAuthToken, User user, int pageSize, User lastFollowee, FollowingPresenter.GetFollowingObserver getFollowingObserver) {
         GetFollowingTask getFollowingTask = new GetFollowingTask(currUserAuthToken,
@@ -75,56 +75,12 @@ public class FollowService {
         executor.execute(followingCountTask);
     }
 
-    // Observers
-
-    public interface GetFollowingObserver {
-        void handleSuccess(List<User> followees, boolean hasMorePages);
-        void handleFailure(String message);
-        void handleException(Exception exception);
-    }
-
-    public interface GetFollowersObserver {
-        void handleSuccess(List<User> followers, boolean hasMorePages);
-        void handleFailure(String message);
-        void handleException(Exception exception);
-    }
-
-    public interface IsFollowerObserver {
-        void handleSuccess(boolean isFollower);
-        void handleFailure(String message);
-        void handleException(Exception exception);
-    }
-
-    public interface FollowObserver {
-        void handleSuccess();
-        void handleFailure(String message);
-        void handleException(Exception exception);
-    }
-
-    public interface UnfollowObserver {
-        void handleSuccess();
-        void handleFailure(String message);
-        void handleException(Exception exception);
-    }
-
-    public interface GetFollowersCountObserver {
-        void handleSuccess(int count);
-        void handleFailure(String message);
-        void handleException(Exception exception);
-    }
-
-    public interface GetFollowingCountObserver {
-        void handleSuccess(int count);
-        void handleFailure(String message);
-        void handleException(Exception exception);
-    }
-
     // Handlers
 
     private class GetFollowingHandler extends Handler {
-        private final GetFollowingObserver observer;
+        private final ServiceObserver.GetItemsObserver observer;
 
-        public GetFollowingHandler(GetFollowingObserver observer) {
+        public GetFollowingHandler(ServiceObserver.GetItemsObserver observer) {
             this.observer = observer;
         }
 
@@ -132,7 +88,7 @@ public class FollowService {
         public void handleMessage(@NonNull Message msg) {
             boolean success = msg.getData().getBoolean(GetFollowingTask.SUCCESS_KEY);
             if (success) {
-                List<User> followees = (List<User>) msg.getData().getSerializable(GetFollowingTask.FOLLOWEES_KEY);
+                List<User> followees = (List<User>) msg.getData().getSerializable(PagedTask.ITEMS_KEY);
                 boolean hasMorePages = msg.getData().getBoolean(GetFollowingTask.MORE_PAGES_KEY);
                 observer.handleSuccess(followees, hasMorePages);
             } else if (msg.getData().containsKey(GetFollowingTask.MESSAGE_KEY)) {
@@ -148,9 +104,9 @@ public class FollowService {
     }
 
     private class GetFollowersHandler extends Handler {
-        private final GetFollowersObserver observer;
+        private final ServiceObserver.GetItemsObserver observer;
 
-        public GetFollowersHandler(GetFollowersObserver observer) {
+        public GetFollowersHandler(ServiceObserver.GetItemsObserver observer) {
             this.observer = observer;
         }
 
@@ -158,7 +114,7 @@ public class FollowService {
         public void handleMessage(@NonNull Message msg) {
             boolean success = msg.getData().getBoolean(GetFollowersTask.SUCCESS_KEY);
             if (success) {
-                List<User> followers = (List<User>) msg.getData().getSerializable(GetFollowersTask.FOLLOWERS_KEY);
+                List<User> followers = (List<User>) msg.getData().getSerializable(PagedTask.ITEMS_KEY);
                 boolean hasMorePages = msg.getData().getBoolean(GetFollowersTask.MORE_PAGES_KEY);
                 observer.handleSuccess(followers, hasMorePages);
             } else if (msg.getData().containsKey(GetFollowersTask.MESSAGE_KEY)) {
@@ -172,9 +128,9 @@ public class FollowService {
     }
 
     private class IsFollowerHandler extends Handler {
-        private final IsFollowerObserver observer;
+        private final ServiceObserver.IsFollowerObserver observer;
 
-        private IsFollowerHandler(IsFollowerObserver observer) {
+        private IsFollowerHandler(ServiceObserver.IsFollowerObserver observer) {
             this.observer = observer;
         }
 
@@ -195,9 +151,9 @@ public class FollowService {
     }
 
     private class UnfollowHandler extends Handler {
-        private final UnfollowObserver observer;
+        private final ServiceObserver.SuccessObserver observer;
 
-        private UnfollowHandler(UnfollowObserver observer) {
+        private UnfollowHandler(ServiceObserver.SuccessObserver observer) {
             this.observer = observer;
         }
 
@@ -217,9 +173,9 @@ public class FollowService {
     }
 
     private class FollowHandler extends Handler {
-        private final FollowObserver observer;
+        private final ServiceObserver.SuccessObserver observer;
 
-        private FollowHandler(FollowObserver observer) {
+        private FollowHandler(ServiceObserver.SuccessObserver observer) {
             this.observer = observer;
         }
 
@@ -239,9 +195,9 @@ public class FollowService {
     }
 
     private class GetFollowersCountHandler extends Handler {
-        private final GetFollowersCountObserver observer;
+        private final ServiceObserver.GetCountObserver observer;
 
-        private GetFollowersCountHandler(GetFollowersCountObserver observer) {
+        private GetFollowersCountHandler(ServiceObserver.GetCountObserver observer) {
             this.observer = observer;
         }
 
@@ -262,9 +218,9 @@ public class FollowService {
     }
 
     private class GetFollowingCountHandler extends Handler {
-        private final GetFollowingCountObserver observer;
+        private final ServiceObserver.GetCountObserver observer;
 
-        private GetFollowingCountHandler(GetFollowingCountObserver observer) {
+        private GetFollowingCountHandler(ServiceObserver.GetCountObserver observer) {
             this.observer = observer;
         }
 

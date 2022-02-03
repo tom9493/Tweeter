@@ -14,8 +14,6 @@ import edu.byu.cs.tweeter.util.Pair;
  */
 public class GetFeedTask extends PagedStatusTask {
 
-    public static final String STATUSES_KEY = "statuses";
-
     public GetFeedTask(AuthToken authToken, User targetUser, int limit, Status lastStatus,
                        Handler messageHandler) {
         super(authToken, targetUser, limit, lastStatus, messageHandler);

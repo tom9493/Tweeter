@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetUserTask;
+import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.client.presenter.FeedPresenter;
 import edu.byu.cs.tweeter.client.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.client.presenter.FollowingPresenter;
@@ -46,21 +47,13 @@ public class UserService {
         executor.execute(getUserTask);
     }
 
-    public interface GetUserObserver {
-        void handleSuccess(User user);
-
-        void handleFailure(String message);
-
-        void handleException(Exception exception);
-    }
-
     /**
      * Message handler (i.e., observer) for GetUserTask.
      */
     private class GetUserHandler extends Handler {
-        private final GetUserObserver observer;
+        private final ServiceObserver.GetUserObserver observer;
 
-        public GetUserHandler(GetUserObserver observer) {
+        public GetUserHandler(ServiceObserver.GetUserObserver observer) {
             this.observer = observer;
         }
 

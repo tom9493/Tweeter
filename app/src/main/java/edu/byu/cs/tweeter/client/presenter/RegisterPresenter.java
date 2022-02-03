@@ -4,6 +4,7 @@ import android.widget.ImageView;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.LoginService;
+import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -25,7 +26,7 @@ public class RegisterPresenter {
         loginService.register(firstName, lastName, alias, password, imageToUpload, new RegisterPresenter.RegisterObserver());
     }
 
-    public class RegisterObserver implements LoginService.RegisterObserver {
+    public class RegisterObserver implements ServiceObserver.LogRegObserver {
 
         @Override
         public void handleSuccess(User registeredUser, AuthToken authToken) {

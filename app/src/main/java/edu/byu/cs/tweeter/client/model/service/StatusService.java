@@ -17,7 +17,9 @@ import java.util.concurrent.Executors;
 
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFeedTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetStoryTask;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.PagedTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.PostStatusTask;
+import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.client.presenter.FeedPresenter;
 import edu.byu.cs.tweeter.client.presenter.MainPresenter;
 import edu.byu.cs.tweeter.client.presenter.StoryPresenter;
@@ -26,24 +28,6 @@ import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class StatusService {
-
-    public interface GetStoryObserver {
-        void handleSuccess(List<Status> statuses, boolean hasMorePages);
-        void handleFailure(String message);
-        void handleException(Exception exception);
-    }
-
-    public interface GetFeedObserver {
-        void handleSuccess(List<Status> statuses, boolean hasMorePages);
-        void handleFailure(String message);
-        void handleException(Exception exception);
-    }
-
-    public interface PostStatusObserver {
-        void handleSuccess();
-        void handleFailure(String message);
-        void handleException(Exception exception);
-    }
 
     public void getStory(AuthToken currUserAuthToken, User user, int pageSize, Status lastStatus, StoryPresenter.GetStoryObserver getStoryObserver) {
         GetStoryTask getStoryTask = new GetStoryTask(currUserAuthToken,
@@ -135,9 +119,9 @@ public class StatusService {
      * Message handler (i.e., observer) for GetStoryTask.
      */
     private class GetStoryHandler extends Handler {
-        private final GetStoryObserver observer;
+        private final ServiceObserver.GetItemsObserver observer;
 
-        public GetStoryHandler(GetStoryObserver observer) {
+        public GetStoryHandler(ServiceObserver.GetItemsObserver observer) {
             this.observer = observer;
         }
 
@@ -145,7 +129,7 @@ public class StatusService {
         public void handleMessage(@NonNull Message msg) {
             boolean success = msg.getData().getBoolean(GetStoryTask.SUCCESS_KEY);
             if (success) {
-                List<Status> statuses = (List<Status>) msg.getData().getSerializable("statuses");
+                List<Status> statuses = (List<Status>) msg.getData().getSerializable(PagedTask.ITEMS_KEY);
                 boolean hasMorePages = msg.getData().getBoolean(GetStoryTask.MORE_PAGES_KEY);
                 observer.handleSuccess(statuses, hasMorePages);
             } else if (msg.getData().containsKey(GetStoryTask.MESSAGE_KEY)) {
@@ -162,9 +146,9 @@ public class StatusService {
      * Message handler (i.e., observer) for GetFeedTask.
      */
     private class GetFeedHandler extends Handler {
-        private final GetFeedObserver observer;
+        private final ServiceObserver.GetItemsObserver observer;
 
-        public GetFeedHandler(GetFeedObserver observer) {
+        public GetFeedHandler(ServiceObserver.GetItemsObserver observer) {
             this.observer = observer;
         }
 
@@ -172,7 +156,7 @@ public class StatusService {
         public void handleMessage(@NonNull Message msg) {
             boolean success = msg.getData().getBoolean(GetFeedTask.SUCCESS_KEY);
             if (success) {
-                List<Status> statuses = (List<Status>) msg.getData().getSerializable("statuses");
+                List<Status> statuses = (List<Status>) msg.getData().getSerializable(PagedTask.ITEMS_KEY);
                 boolean hasMorePages = msg.getData().getBoolean(GetFeedTask.MORE_PAGES_KEY);
                 observer.handleSuccess(statuses, hasMorePages);
             } else if (msg.getData().containsKey(GetFeedTask.MESSAGE_KEY)) {
@@ -188,9 +172,9 @@ public class StatusService {
     // PostStatusHandler
 
     private class PostStatusHandler extends Handler {
-        private final PostStatusObserver observer;
+        private final ServiceObserver.SuccessObserver observer;
 
-        private PostStatusHandler(PostStatusObserver observer) {
+        private PostStatusHandler(ServiceObserver.SuccessObserver observer) {
             this.observer = observer;
         }
 

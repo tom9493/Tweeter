@@ -6,6 +6,7 @@ import java.util.List;
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.StatusService;
 import edu.byu.cs.tweeter.client.model.service.UserService;
+import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -59,13 +60,13 @@ public class StoryPresenter {
         userService.getUserFromStory(Cache.getInstance().getCurrUserAuthToken(), userAliasString, new StoryPresenter.GetUserObserver());
     }
 
-    public class GetStoryObserver implements StatusService.GetStoryObserver {
+    public class GetStoryObserver implements ServiceObserver.GetItemsObserver {
 
         @Override
-        public void handleSuccess(List<Status> statuses, boolean hasMorePages) {
+        public void handleSuccess(List statuses, boolean hasMorePages) {
             isLoading = false;
             view.setLoadingStatus(false);
-            lastStatus = (statuses.size() > 0) ? statuses.get(statuses.size() - 1) : null;
+            lastStatus = (statuses.size() > 0) ? (Status) statuses.get(statuses.size() - 1) : null;
             view.addStatuses(statuses);
             setHasMorePages(hasMorePages);
         }
@@ -85,7 +86,7 @@ public class StoryPresenter {
         }
     }
 
-    public class GetUserObserver implements UserService.GetUserObserver {
+    public class GetUserObserver implements ServiceObserver.GetUserObserver {
 
         @Override
         public void handleSuccess(User user) {

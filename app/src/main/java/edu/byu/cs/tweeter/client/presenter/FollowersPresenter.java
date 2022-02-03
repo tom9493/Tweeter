@@ -5,6 +5,7 @@ import java.util.List;
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.FollowService;
 import edu.byu.cs.tweeter.client.model.service.UserService;
+import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowersPresenter {
@@ -57,13 +58,13 @@ public class FollowersPresenter {
         userService.getUserFromFollowers(Cache.getInstance().getCurrUserAuthToken(), userAliasString, new FollowersPresenter.GetUserObserver());
     }
 
-    public class GetFollowersObserver implements FollowService.GetFollowersObserver {
+    public class GetFollowersObserver implements ServiceObserver.GetItemsObserver {
 
         @Override
-        public void handleSuccess(List<User> followers, boolean hasMorePages) {
+        public void handleSuccess(List followers, boolean hasMorePages) {
             isLoading = false;
             view.setLoadingStatus(false);
-            lastFollower = (followers.size() > 0) ? followers.get(followers.size() - 1) : null;
+            lastFollower = (followers.size() > 0) ? (User) followers.get(followers.size() - 1) : null;
             view.addFollowers(followers);
             setHasMorePages(hasMorePages);
         }
@@ -83,7 +84,7 @@ public class FollowersPresenter {
         }
     }
 
-    public class GetUserObserver implements UserService.GetUserObserver {
+    public class GetUserObserver implements ServiceObserver.GetUserObserver {
 
         @Override
         public void handleSuccess(User user) {

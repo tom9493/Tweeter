@@ -4,6 +4,7 @@ import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.FollowService;
 import edu.byu.cs.tweeter.client.model.service.LoginService;
 import edu.byu.cs.tweeter.client.model.service.StatusService;
+import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class MainPresenter {
@@ -62,7 +63,7 @@ public class MainPresenter {
 
     public void clearCache() { Cache.getInstance().clearCache(); }
 
-    public class IsFollowerObserver implements FollowService.IsFollowerObserver {
+    public class IsFollowerObserver implements ServiceObserver.IsFollowerObserver {
 
         @Override
         public void handleSuccess(boolean isFollower) {
@@ -80,7 +81,7 @@ public class MainPresenter {
         }
     }
 
-    public class UnfollowObserver implements FollowService.UnfollowObserver {
+    public class UnfollowObserver implements ServiceObserver.SuccessObserver {
 
         @Override
         public void handleSuccess() {
@@ -98,7 +99,7 @@ public class MainPresenter {
         }
     }
 
-    public class FollowObserver implements FollowService.FollowObserver {
+    public class FollowObserver implements ServiceObserver.SuccessObserver {
 
         @Override
         public void handleSuccess() {
@@ -116,7 +117,7 @@ public class MainPresenter {
         }
     }
 
-    public class LogoutObserver implements LoginService.LogoutObserver {
+    public class LogoutObserver implements ServiceObserver.SuccessObserver {
 
         @Override
         public void handleSuccess() {
@@ -134,7 +135,7 @@ public class MainPresenter {
         }
     }
 
-    public class PostStatusObserver implements StatusService.PostStatusObserver {
+    public class PostStatusObserver implements ServiceObserver.SuccessObserver {
 
         @Override
         public void handleSuccess() {
@@ -152,7 +153,7 @@ public class MainPresenter {
         }
     }
 
-    public class GetFollowersCountObserver implements FollowService.GetFollowersCountObserver {
+    public class GetFollowersCountObserver implements ServiceObserver.GetCountObserver {
 
         @Override
         public void handleSuccess(int count) {
@@ -170,7 +171,7 @@ public class MainPresenter {
         }
     }
 
-    public class GetFollowingCountObserver implements FollowService.GetFollowingCountObserver {
+    public class GetFollowingCountObserver implements ServiceObserver.GetCountObserver {
 
         @Override
         public void handleSuccess(int count) {

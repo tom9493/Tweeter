@@ -2,6 +2,7 @@ package edu.byu.cs.tweeter.client.presenter;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.LoginService;
+import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -23,7 +24,7 @@ public class LoginPresenter {
         loginService.login(alias, password, new LoginPresenter.LoginObserver());
     }
 
-    public class LoginObserver implements LoginService.LoginObserver {
+    public class LoginObserver implements ServiceObserver.LogRegObserver {
 
         @Override
         public void handleSuccess(User loggedInUser, AuthToken authToken) {
