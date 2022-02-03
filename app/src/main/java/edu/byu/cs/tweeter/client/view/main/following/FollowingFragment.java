@@ -104,12 +104,12 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
         followingRecyclerViewAdapter.addItems(followees);
     }
 
-    @Override
-    public void getUserPage(User user) {
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
-        startActivity(intent);
-    }
+//    @Override
+//    public void getUserPage(User user) {
+//        Intent intent = new Intent(getContext(), MainActivity.class);
+//        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
+//        startActivity(intent);
+//    }
 
     /**
      * The ViewHolder for the RecyclerView that displays the Following data.

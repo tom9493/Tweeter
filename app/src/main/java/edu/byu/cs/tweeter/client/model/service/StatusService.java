@@ -12,10 +12,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFeedTask;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetStoryTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.PagedTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.PostStatusTask;
@@ -32,23 +31,20 @@ public class StatusService {
     public void getStory(AuthToken currUserAuthToken, User user, int pageSize, Status lastStatus, StoryPresenter.GetStoryObserver getStoryObserver) {
         GetStoryTask getStoryTask = new GetStoryTask(currUserAuthToken,
                 user, pageSize, lastStatus, new GetStoryHandler(getStoryObserver));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(getStoryTask);
+        new ExecuteTask<>(getStoryTask);
     }
 
     public void getFeed(AuthToken currUserAuthToken, User user, int pageSize, Status lastStatus, FeedPresenter.GetFeedObserver getFeedObserver) {
         GetFeedTask getFeedTask = new GetFeedTask(currUserAuthToken,
                 user, pageSize, lastStatus, new GetFeedHandler(getFeedObserver));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(getFeedTask);
+        new ExecuteTask<>(getFeedTask);
     }
 
     public void postStatus(String post, User currentUser, AuthToken authToken, MainPresenter.PostStatusObserver postStatusObserver) throws Exception {
         Status newStatus = new Status(post, currentUser, getFormattedDateTime(), parseURLs(post), parseMentions(post));
         PostStatusTask statusTask = new PostStatusTask(authToken, newStatus,
                 new PostStatusHandler(postStatusObserver));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(statusTask);
+        new ExecuteTask<>(statusTask);
     }
 
     public String getFormattedDateTime() throws ParseException {
@@ -62,15 +58,11 @@ public class StatusService {
         List<String> containedUrls = new ArrayList<>();
         for (String word : post.split("\\s")) {
             if (word.startsWith("http://") || word.startsWith("https://")) {
-
                 int index = findUrlEndIndex(word);
-
                 word = word.substring(0, index);
-
                 containedUrls.add(word);
             }
         }
-
         return containedUrls;
     }
 
@@ -81,7 +73,6 @@ public class StatusService {
             if (word.startsWith("@")) {
                 word = word.replaceAll("[^a-zA-Z0-9]", "");
                 word = "@".concat(word);
-
                 containedMentions.add(word);
             }
         }
@@ -115,81 +106,42 @@ public class StatusService {
         }
     }
 
-    /**
-     * Message handler (i.e., observer) for GetStoryTask.
-     */
-    private class GetStoryHandler extends Handler {
-        private final ServiceObserver.GetItemsObserver observer;
-
+    private class GetStoryHandler extends TaskHandler.ItemsHandler {
         public GetStoryHandler(ServiceObserver.GetItemsObserver observer) {
-            this.observer = observer;
+            new TaskHandler(observer).super(observer);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
             boolean success = msg.getData().getBoolean(GetStoryTask.SUCCESS_KEY);
-            if (success) {
-                List<Status> statuses = (List<Status>) msg.getData().getSerializable(PagedTask.ITEMS_KEY);
-                boolean hasMorePages = msg.getData().getBoolean(GetStoryTask.MORE_PAGES_KEY);
-                observer.handleSuccess(statuses, hasMorePages);
-            } else if (msg.getData().containsKey(GetStoryTask.MESSAGE_KEY)) {
-                String message = msg.getData().getString(GetStoryTask.MESSAGE_KEY);
-                observer.handleFailure(message);
-            } else if (msg.getData().containsKey(GetStoryTask.EXCEPTION_KEY)) {
-                Exception ex = (Exception) msg.getData().getSerializable(GetStoryTask.EXCEPTION_KEY);
-                observer.handleException(ex);
-            }
+            if (success) { handlePageSuccess(msg, GetStoryTask.MORE_PAGES_KEY); }
+            else { handleError(msg, GetStoryTask.MESSAGE_KEY, GetStoryTask.EXCEPTION_KEY); }
         }
     }
 
-    /**
-     * Message handler (i.e., observer) for GetFeedTask.
-     */
-    private class GetFeedHandler extends Handler {
-        private final ServiceObserver.GetItemsObserver observer;
-
+    private class GetFeedHandler extends TaskHandler.ItemsHandler {
         public GetFeedHandler(ServiceObserver.GetItemsObserver observer) {
-            this.observer = observer;
+            new TaskHandler(observer).super(observer);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
             boolean success = msg.getData().getBoolean(GetFeedTask.SUCCESS_KEY);
-            if (success) {
-                List<Status> statuses = (List<Status>) msg.getData().getSerializable(PagedTask.ITEMS_KEY);
-                boolean hasMorePages = msg.getData().getBoolean(GetFeedTask.MORE_PAGES_KEY);
-                observer.handleSuccess(statuses, hasMorePages);
-            } else if (msg.getData().containsKey(GetFeedTask.MESSAGE_KEY)) {
-                String message = msg.getData().getString(GetFeedTask.MESSAGE_KEY);
-                observer.handleFailure(message);
-            } else if (msg.getData().containsKey(GetFeedTask.EXCEPTION_KEY)) {
-                Exception ex = (Exception) msg.getData().getSerializable(GetFeedTask.EXCEPTION_KEY);
-                observer.handleException(ex);
-            }
+            if (success) { handlePageSuccess(msg, GetFeedTask.MORE_PAGES_KEY); }
+            else { handleError(msg, GetFeedTask.MESSAGE_KEY, GetFeedTask.EXCEPTION_KEY); }
         }
     }
 
-    // PostStatusHandler
-
-    private class PostStatusHandler extends Handler {
-        private final ServiceObserver.SuccessObserver observer;
-
+    private class PostStatusHandler extends TaskHandler.SuccessHandler {
         private PostStatusHandler(ServiceObserver.SuccessObserver observer) {
-            this.observer = observer;
+            new TaskHandler(observer).super(observer);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
             boolean success = msg.getData().getBoolean(PostStatusTask.SUCCESS_KEY);
-            if (success) {
-                observer.handleSuccess();
-            } else if (msg.getData().containsKey(PostStatusTask.MESSAGE_KEY)) {
-                String message = msg.getData().getString(PostStatusTask.MESSAGE_KEY);
-                observer.handleFailure(message);
-            } else if (msg.getData().containsKey(PostStatusTask.EXCEPTION_KEY)) {
-                Exception ex = (Exception) msg.getData().getSerializable(PostStatusTask.EXCEPTION_KEY);
-                observer.handleException(ex);
-            }
+            if (success) { handleSuccess(); }
+            else { handleError(msg, PostStatusTask.MESSAGE_KEY, PostStatusTask.EXCEPTION_KEY); }
         }
     }
 }

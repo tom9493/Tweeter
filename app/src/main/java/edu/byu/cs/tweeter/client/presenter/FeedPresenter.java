@@ -37,12 +37,8 @@ public class FeedPresenter {
 
     public interface View {
         void displayErrorMessage(String message);
-
         void setLoadingStatus(boolean value);
-
         void addStatuses(List<Status> statuses);
-
-        void getUserPage(User user);
     }
 
     public FeedPresenter(View view) {
@@ -60,7 +56,7 @@ public class FeedPresenter {
     }
 
     public void getUser(String userAliasString) {
-        userService.getUserFromFeed(Cache.getInstance().getCurrUserAuthToken(), userAliasString, new FeedPresenter.GetUserObserver());
+        userService.getUser(Cache.getInstance().getCurrUserAuthToken(), userAliasString, new StoryPresenter.GetUserObserver());
     }
 
     public class GetFeedObserver implements ServiceObserver.GetItemsObserver {
@@ -86,24 +82,6 @@ public class FeedPresenter {
             isLoading = false;
             view.setLoadingStatus(false);
             view.displayErrorMessage("Failed to get feed because of exception: " + ex.getMessage());
-        }
-    }
-
-    public class GetUserObserver implements ServiceObserver.GetUserObserver {
-
-        @Override
-        public void handleSuccess(User user) {
-            view.getUserPage(user);
-        }
-
-        @Override
-        public void handleFailure(String message) {
-            view.displayErrorMessage("Failed to get user's profile: " + message);
-        }
-
-        @Override
-        public void handleException(Exception ex) {
-            view.displayErrorMessage("Failed to get user's profile because of exception: " + ex.getMessage());
         }
     }
 }

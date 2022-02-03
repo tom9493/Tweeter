@@ -1,6 +1,5 @@
 package edu.byu.cs.tweeter.client.model.service;
 
-import android.app.Service;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
@@ -17,6 +16,7 @@ import java.util.concurrent.Executors;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LoginTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LogoutTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.RegisterTask;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.UnfollowTask;
 import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.client.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.client.presenter.MainPresenter;
@@ -37,8 +37,7 @@ public class LoginService {
             throw new IllegalArgumentException("Password cannot be empty.");
         }
         LoginTask loginTask = new LoginTask(alias, password, new LoginHandler(loginObserver));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(loginTask);
+        new ExecuteTask<>(loginTask);
     }
 
     public void register(String firstName, String lastName, String alias, String password, ImageView imageToUpload, RegisterPresenter.RegisterObserver registerObserver) {
@@ -75,82 +74,48 @@ public class LoginService {
         RegisterTask registerTask = new RegisterTask(firstName, lastName, alias, password,
                 imageBytesBase64, new RegisterHandler(registerObserver));
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(registerTask);
+        new ExecuteTask<>(registerTask);
     }
 
     public void logout(AuthToken authToken, MainPresenter.LogoutObserver logoutObserver) {
         LogoutTask logoutTask = new LogoutTask(authToken, new LogoutHandler(logoutObserver));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(logoutTask);
+        new ExecuteTask<>(logoutTask);
     }
 
-    /**
-     * Message handler (i.e., observer) for LoginTask
-     */
-    private class LoginHandler extends Handler {
-        private ServiceObserver.LogRegObserver observer;
-
-        public LoginHandler(ServiceObserver.LogRegObserver observer) { this.observer = observer; }
+    private class LoginHandler extends TaskHandler.LogRegHandler {
+        public LoginHandler(ServiceObserver.LogRegObserver observer) {
+            new TaskHandler(observer).super(observer);
+        }
         @Override
         public void handleMessage(@NonNull Message msg) {
             boolean success = msg.getData().getBoolean(LoginTask.SUCCESS_KEY);
-            if (success) {
-                User loggedInUser = (User) msg.getData().getSerializable(LoginTask.USER_KEY);
-                AuthToken authToken = (AuthToken) msg.getData().getSerializable(LoginTask.AUTH_TOKEN_KEY);
-                observer.handleSuccess(loggedInUser, authToken);
-            } else if (msg.getData().containsKey(LoginTask.MESSAGE_KEY)) {
-                String message = msg.getData().getString(LoginTask.MESSAGE_KEY);
-                observer.handleFailure(message);
-            } else if (msg.getData().containsKey(LoginTask.EXCEPTION_KEY)) {
-                Exception ex = (Exception) msg.getData().getSerializable(LoginTask.EXCEPTION_KEY);
-                observer.handleException(ex);
-            }
+            if (success) { handleLoginSuccess(msg, LoginTask.USER_KEY, LoginTask.AUTH_TOKEN_KEY); }
+            else { handleError(msg, LoginTask.MESSAGE_KEY, LoginTask.EXCEPTION_KEY);}
         }
     }
 
-    // LogoutHandler
-
-    private class LogoutHandler extends Handler {
-        private final ServiceObserver.SuccessObserver observer;
-
+    private class LogoutHandler extends TaskHandler.SuccessHandler {
         private LogoutHandler(ServiceObserver.SuccessObserver observer) {
-            this.observer = observer;
+            new TaskHandler(observer).super(observer);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            boolean success = msg.getData().getBoolean(LogoutTask.SUCCESS_KEY);
-            if (success) {
-                observer.handleSuccess();
-            } else if (msg.getData().containsKey(LogoutTask.MESSAGE_KEY)) {
-                String message = msg.getData().getString(LogoutTask.MESSAGE_KEY);
-                observer.handleFailure(message);
-            } else if (msg.getData().containsKey(LogoutTask.EXCEPTION_KEY)) {
-                Exception ex = (Exception) msg.getData().getSerializable(LogoutTask.EXCEPTION_KEY);
-                observer.handleException(ex);
-            }
+            boolean success = msg.getData().getBoolean(UnfollowTask.SUCCESS_KEY);
+            if (success) { handleSuccess(); }
+            else { handleError(msg, LogoutTask.MESSAGE_KEY, LogoutTask.EXCEPTION_KEY); }
         }
     }
 
-    private class RegisterHandler extends Handler {
-        private ServiceObserver.LogRegObserver observer;
-
-        public RegisterHandler(ServiceObserver.LogRegObserver observer) { this.observer = observer; }
+    private class RegisterHandler extends TaskHandler.LogRegHandler {
+        public RegisterHandler(ServiceObserver.LogRegObserver observer) {
+            new TaskHandler(observer).super(observer);
+        }
         @Override
         public void handleMessage(@NonNull Message msg) {
-            boolean success = msg.getData().getBoolean(RegisterTask.SUCCESS_KEY);
-            if (success) {
-                User registeredUser = (User) msg.getData().getSerializable(RegisterTask.USER_KEY);
-                AuthToken authToken = (AuthToken) msg.getData().getSerializable(RegisterTask.AUTH_TOKEN_KEY);
-                observer.handleSuccess(registeredUser, authToken);
-            } else if (msg.getData().containsKey(RegisterTask.MESSAGE_KEY)) {
-                String message = msg.getData().getString(RegisterTask.MESSAGE_KEY);
-                observer.handleFailure(message);
-            } else if (msg.getData().containsKey(RegisterTask.EXCEPTION_KEY)) {
-                Exception ex = (Exception) msg.getData().getSerializable(RegisterTask.EXCEPTION_KEY);
-                observer.handleException(ex);
-            }
+            boolean success = msg.getData().getBoolean(LoginTask.SUCCESS_KEY);
+            if (success) { handleLoginSuccess(msg, RegisterTask.USER_KEY, RegisterTask.AUTH_TOKEN_KEY); }
+            else { handleError(msg, RegisterTask.MESSAGE_KEY, RegisterTask.EXCEPTION_KEY);}
         }
     }
 }

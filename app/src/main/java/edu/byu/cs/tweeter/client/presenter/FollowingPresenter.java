@@ -10,7 +10,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowingPresenter {
     private static final int PAGE_SIZE = 10;
-    private View view;
+    private FollowingPresenter.View view;
     private FollowService followService;
     private UserService userService;
     private User lastFollowee;
@@ -21,7 +21,7 @@ public class FollowingPresenter {
         void displayErrorMessage(String message);
         void setLoadingStatus(boolean value);
         void addFollowees(List<User> followees);
-        void getUserPage(User user);
+        //void getUserPage(User user);
     }
 
     public boolean hasMorePages() {
@@ -55,7 +55,7 @@ public class FollowingPresenter {
     }
 
     public void getUser(String userAliasString) {
-        userService.getUserFromFollowing(Cache.getInstance().getCurrUserAuthToken(), userAliasString, new GetUserObserver());
+        userService.getUser(Cache.getInstance().getCurrUserAuthToken(), userAliasString, new StoryPresenter.GetUserObserver());
     }
 
     public class GetFollowingObserver implements ServiceObserver.GetItemsObserver {
@@ -74,7 +74,6 @@ public class FollowingPresenter {
             isLoading = false;
             view.setLoadingStatus(false);
             view.displayErrorMessage("Failed to get following: " + message);
-
         }
 
         @Override
@@ -82,24 +81,6 @@ public class FollowingPresenter {
             isLoading = false;
             view.setLoadingStatus(false);
             view.displayErrorMessage("Failed to get following because of exception: " + ex.getMessage());
-        }
-    }
-
-    public class GetUserObserver implements ServiceObserver.GetUserObserver {
-
-        @Override
-        public void handleSuccess(User user) {
-            view.getUserPage(user);
-        }
-
-        @Override
-        public void handleFailure(String message) {
-            view.displayErrorMessage("Failed to get user's profile: " + message);
-        }
-
-        @Override
-        public void handleException(Exception ex) {
-            view.displayErrorMessage("Failed to get user's profile because of exception: " + ex.getMessage());
         }
     }
 }

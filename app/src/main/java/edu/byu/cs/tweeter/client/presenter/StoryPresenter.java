@@ -12,7 +12,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public class StoryPresenter {
     private static final int PAGE_SIZE = 10;
-    private StoryPresenter.View view;
+    private static StoryPresenter.View view;
     private StatusService statusService;
     private UserService userService;
     private Status lastStatus;
@@ -57,7 +57,7 @@ public class StoryPresenter {
     }
 
     public void getUser(String userAliasString) {
-        userService.getUserFromStory(Cache.getInstance().getCurrUserAuthToken(), userAliasString, new StoryPresenter.GetUserObserver());
+        userService.getUser(Cache.getInstance().getCurrUserAuthToken(), userAliasString, new GetUserObserver());
     }
 
     public class GetStoryObserver implements ServiceObserver.GetItemsObserver {
@@ -86,7 +86,7 @@ public class StoryPresenter {
         }
     }
 
-    public class GetUserObserver implements ServiceObserver.GetUserObserver {
+    public static class GetUserObserver implements ServiceObserver.GetUserObserver {
 
         @Override
         public void handleSuccess(User user) {

@@ -9,9 +9,11 @@ import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowersPresenter {
+
+    private FollowService followService;
+
     private static final int PAGE_SIZE = 10;
     private FollowersPresenter.View view;
-    private FollowService followService;
     private UserService userService;
     private User lastFollower;
     private boolean hasMorePages;
@@ -37,7 +39,6 @@ public class FollowersPresenter {
         void displayErrorMessage(String message);
         void setLoadingStatus(boolean value);
         void addFollowers(List<User> followers);
-        void getUserPage(User user);
     }
 
     public FollowersPresenter(View view) {
@@ -55,7 +56,7 @@ public class FollowersPresenter {
     }
 
     public void getUser(String userAliasString) {
-        userService.getUserFromFollowers(Cache.getInstance().getCurrUserAuthToken(), userAliasString, new FollowersPresenter.GetUserObserver());
+        userService.getUser(Cache.getInstance().getCurrUserAuthToken(), userAliasString, new StoryPresenter.GetUserObserver());
     }
 
     public class GetFollowersObserver implements ServiceObserver.GetItemsObserver {
@@ -81,24 +82,6 @@ public class FollowersPresenter {
             isLoading = false;
             view.setLoadingStatus(false);
             view.displayErrorMessage("Failed to get followers because of exception: " + ex.getMessage());
-        }
-    }
-
-    public class GetUserObserver implements ServiceObserver.GetUserObserver {
-
-        @Override
-        public void handleSuccess(User user) {
-            view.getUserPage(user);
-        }
-
-        @Override
-        public void handleFailure(String message) {
-            view.displayErrorMessage("Failed to get user's profile: " + message);
-        }
-
-        @Override
-        public void handleException(Exception ex) {
-            view.displayErrorMessage("Failed to get user's profile because of exception: " + ex.getMessage());
         }
     }
 }

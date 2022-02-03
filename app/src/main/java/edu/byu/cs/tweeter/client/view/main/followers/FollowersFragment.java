@@ -110,12 +110,12 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
         followersRecyclerViewAdapter.addItems(followers);
     }
 
-    @Override
-    public void getUserPage(User user) {
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
-        startActivity(intent);
-    }
+//    @Override
+//    public void getUserPage(User user) {
+//        Intent intent = new Intent(getContext(), MainActivity.class);
+//        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
+//        startActivity(intent);
+//    }
 
     /**
      * The ViewHolder for the RecyclerView that displays the follower data.

@@ -90,6 +90,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
         feedRecyclerView.addOnScrollListener(new FeedRecyclerViewPaginationScrollListener(layoutManager));
 
         presenter = new FeedPresenter(this);
+
         try {
             presenter.loadMoreItems(user);
         } catch (MalformedURLException e) {
@@ -118,12 +119,12 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
         feedRecyclerViewAdapter.addItems(statuses);
     }
 
-    @Override
-    public void getUserPage(User user) {
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
-        startActivity(intent);
-    }
+//    @Override
+//    public void getUserPage(User user) {
+//        Intent intent = new Intent(getContext(), MainActivity.class);
+//        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
+//        startActivity(intent);
+//    }
 
     /**
      * The ViewHolder for the RecyclerView that displays the feed data.
