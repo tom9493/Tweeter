@@ -1,13 +1,8 @@
 package edu.byu.cs.tweeter.client.model.service;
 
-import android.os.Handler;
 import android.os.Message;
 
 import androidx.annotation.NonNull;
-
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.FollowTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowersCountTask;
@@ -15,7 +10,6 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowersTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingCountTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.IsFollowerTask;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.PagedTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.UnfollowTask;
 import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.client.presenter.FollowersPresenter;
@@ -59,6 +53,7 @@ public class FollowService {
     public void updateSelectedUserFollowingAndFollowers(AuthToken authToken, User selectedUser,
                                                         MainPresenter.GetFollowersCountObserver getFollowersCountObserver,
                                                         MainPresenter.GetFollowingCountObserver getFollowingCountObserver) {
+
         GetFollowersCountTask followersCountTask = new GetFollowersCountTask(authToken,
                 selectedUser, new GetFollowersCountHandler(getFollowersCountObserver));
         GetFollowingCountTask followingCountTask = new GetFollowingCountTask(authToken,

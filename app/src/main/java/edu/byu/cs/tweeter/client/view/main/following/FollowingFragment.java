@@ -32,7 +32,6 @@ import edu.byu.cs.tweeter.model.domain.User;
  * Implements the "Following" tab.
  */
 public class FollowingFragment extends Fragment implements FollowingPresenter.View {
-
     private static final String LOG_TAG = "FollowingFragment";
     private static final String USER_KEY = "UserKey";
 
@@ -40,9 +39,7 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
     private static final int ITEM_VIEW = 1;
 
     private User user;
-
     private FollowingRecyclerViewAdapter followingRecyclerViewAdapter;
-
     private FollowingPresenter presenter;
 
     /**
@@ -100,16 +97,16 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
     }
 
     @Override
-    public void addFollowees(List<User> followees) {
+    public void addItems(List followees) {
         followingRecyclerViewAdapter.addItems(followees);
     }
 
-//    @Override
-//    public void getUserPage(User user) {
-//        Intent intent = new Intent(getContext(), MainActivity.class);
-//        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
-//        startActivity(intent);
-//    }
+    @Override
+    public void getUserPage(User user) {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
+        startActivity(intent);
+    }
 
     /**
      * The ViewHolder for the RecyclerView that displays the Following data.

@@ -13,8 +13,7 @@ public class MainPresenter {
     private LoginService loginService;
     private StatusService statusService;
 
-    public interface View {
-        void displayErrorMessage(String message);
+    public interface View extends ViewInterface {
         void displayFollowButton(boolean isFollower);
         void updateFollowing(int count);
         void updateFollowers(int count);
@@ -60,7 +59,6 @@ public class MainPresenter {
     }
 
     public User getCurrUser() { return Cache.getInstance().getCurrUser(); }
-
     public void clearCache() { Cache.getInstance().clearCache(); }
 
     public class IsFollowerObserver implements ServiceObserver.IsFollowerObserver {

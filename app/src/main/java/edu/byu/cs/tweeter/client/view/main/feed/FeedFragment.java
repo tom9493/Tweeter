@@ -115,16 +115,16 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
     }
 
     @Override
-    public void addStatuses(List<Status> statuses) {
+    public void addItems(List statuses) {
         feedRecyclerViewAdapter.addItems(statuses);
     }
 
-//    @Override
-//    public void getUserPage(User user) {
-//        Intent intent = new Intent(getContext(), MainActivity.class);
-//        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
-//        startActivity(intent);
-//    }
+    @Override
+    public void getUserPage(User user) {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
+        startActivity(intent);
+    }
 
     /**
      * The ViewHolder for the RecyclerView that displays the feed data.

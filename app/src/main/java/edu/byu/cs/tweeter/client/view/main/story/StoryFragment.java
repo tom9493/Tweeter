@@ -48,9 +48,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
     private static final int ITEM_VIEW = 1;
 
     private User user;
-
     private StoryRecyclerViewAdapter storyRecyclerViewAdapter;
-
     private StoryPresenter presenter;
 
     /**
@@ -113,7 +111,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
     }
 
     @Override
-    public void addStatuses(List<Status> statuses) {
+    public void addItems(List statuses) {
         storyRecyclerViewAdapter.addItems(statuses);
     }
 

@@ -35,19 +35,14 @@ import edu.byu.cs.tweeter.model.domain.User;
  * Implements the "Followers" tab.
  */
 public class FollowersFragment extends Fragment implements FollowersPresenter.View {
-
     private static final String LOG_TAG = "FollowersFragment";
     private static final String USER_KEY = "UserKey";
 
     private static final int LOADING_DATA_VIEW = 0;
     private static final int ITEM_VIEW = 1;
 
-    private static final int PAGE_SIZE = 10;
-
     private User user;
-
     private FollowersRecyclerViewAdapter followersRecyclerViewAdapter;
-
     private FollowersPresenter presenter;
 
     /**
@@ -106,16 +101,16 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
     }
 
     @Override
-    public void addFollowers(List<User> followers) {
+    public void addItems(List followers) {
         followersRecyclerViewAdapter.addItems(followers);
     }
 
-//    @Override
-//    public void getUserPage(User user) {
-//        Intent intent = new Intent(getContext(), MainActivity.class);
-//        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
-//        startActivity(intent);
-//    }
+    @Override
+    public void getUserPage(User user) {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
+        startActivity(intent);
+    }
 
     /**
      * The ViewHolder for the RecyclerView that displays the follower data.

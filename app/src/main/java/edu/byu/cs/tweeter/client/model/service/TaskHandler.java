@@ -7,9 +7,6 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowersCountTask;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingTask;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.LoginTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.PagedTask;
 import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
@@ -73,7 +70,6 @@ public class TaskHandler<T extends ServiceObserver> extends Handler {
         } else if (msg.getData().containsKey(exceptionKey)) {
             Exception ex = (Exception) msg.getData().getSerializable(exceptionKey);
             observer.handleException(ex);
-
         }
     }
 }
