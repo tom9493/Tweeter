@@ -19,11 +19,6 @@ public class StoryPresenter extends PagedPresenter {
         }
     }
 
-    public void getUser(String userAliasString) {
-        getUserService().getUser(Cache.getInstance().getCurrUserAuthToken(), userAliasString,
-                new GetUserObserver());
-    }
-
     public class GetStoryObserver implements ServiceObserver.GetItemsObserver {
 
         @Override

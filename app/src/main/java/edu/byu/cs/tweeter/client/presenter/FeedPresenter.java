@@ -21,11 +21,6 @@ public class FeedPresenter extends PagedPresenter {
         }
     }
 
-    public void getUser(String userAliasString) {
-        getUserService().getUser(Cache.getInstance().getCurrUserAuthToken(), userAliasString,
-                new StoryPresenter.GetUserObserver());
-    }
-
     public class GetFeedObserver implements ServiceObserver.GetItemsObserver {
 
         @Override

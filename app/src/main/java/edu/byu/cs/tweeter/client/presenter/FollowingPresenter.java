@@ -17,11 +17,6 @@ public class FollowingPresenter extends PagedPresenter {
         }
     }
 
-    public void getUser(String userAliasString) {
-        getUserService().getUser(Cache.getInstance().getCurrUserAuthToken(), userAliasString,
-                new StoryPresenter.GetUserObserver());
-    }
-
     public class GetFollowingObserver implements ServiceObserver.GetItemsObserver {
 
         @Override

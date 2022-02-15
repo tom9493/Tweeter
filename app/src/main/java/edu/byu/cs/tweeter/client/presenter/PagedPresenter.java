@@ -2,6 +2,7 @@ package edu.byu.cs.tweeter.client.presenter;
 
 import java.util.List;
 
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.FollowService;
 import edu.byu.cs.tweeter.client.model.service.StatusService;
 import edu.byu.cs.tweeter.client.model.service.UserService;
@@ -80,6 +81,11 @@ public abstract class PagedPresenter<T> {
         void setLoadingStatus(boolean value);
         void addItems(List<T> items);
         void getUserPage(User user);
+    }
+
+    public void getUser(String userAliasString) {
+        getUserService().getUser(Cache.getInstance().getCurrUserAuthToken(), userAliasString,
+                new GetUserObserver());
     }
 
     public class GetUserObserver implements ServiceObserver.GetUserObserver {

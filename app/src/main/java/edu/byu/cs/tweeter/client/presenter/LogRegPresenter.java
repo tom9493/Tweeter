@@ -5,7 +5,7 @@ import edu.byu.cs.tweeter.client.model.service.LoginService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class LogRegPresenter {
+public abstract class LogRegPresenter {
     private LogRegPresenter.View view;
     private LoginService loginService;
 
