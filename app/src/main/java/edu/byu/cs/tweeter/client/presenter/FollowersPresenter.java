@@ -1,18 +1,21 @@
 package edu.byu.cs.tweeter.client.presenter;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
+import edu.byu.cs.tweeter.client.model.service.FollowService;
 import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 import java.util.List;
 
 public class FollowersPresenter extends PagedPresenter {
-    public FollowersPresenter(View view) { super(view); }
+    private FollowService followService;
+
+    public FollowersPresenter(View view) { super(view); followService = new FollowService(); }
 
     public void loadMoreItems(User user) {
         if (!isLoading()) {
             setLoadInfo(true);
-            getFollowService().getFollowers(Cache.getInstance().getCurrUserAuthToken(), user,
+            followService.getFollowers(Cache.getInstance().getCurrUserAuthToken(), user,
                     getPageSize(), (User) getLastItem(), new FollowersPresenter.GetFollowersObserver());
         }
     }

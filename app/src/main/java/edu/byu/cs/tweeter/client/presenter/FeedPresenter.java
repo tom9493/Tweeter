@@ -1,6 +1,7 @@
 package edu.byu.cs.tweeter.client.presenter;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
+import edu.byu.cs.tweeter.client.model.service.StatusService;
 import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
@@ -9,14 +10,17 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 public class FeedPresenter extends PagedPresenter {
+    private StatusService statusService;
+
     public FeedPresenter(View view) {
         super(view);
+        statusService = new StatusService();
     }
 
     public void loadMoreItems(User user) throws MalformedURLException {
         if (!isLoading()) {
             setLoadInfo(true);
-            getStatusService().getFeed(Cache.getInstance().getCurrUserAuthToken(), user,
+            statusService.getFeed(Cache.getInstance().getCurrUserAuthToken(), user,
                     getPageSize(), (Status) getLastItem(), new FeedPresenter.GetFeedObserver());
         }
     }

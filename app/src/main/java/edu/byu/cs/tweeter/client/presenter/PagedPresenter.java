@@ -14,7 +14,6 @@ public abstract class PagedPresenter<T> {
     private PagedPresenter.View view;
     private UserService userService;
     private FollowService followService;
-    private StatusService statusService;
     private T lastItem;
     private boolean hasMorePages;
     private boolean isLoading = false;
@@ -22,7 +21,7 @@ public abstract class PagedPresenter<T> {
     public PagedPresenter(View view) {
         this.view = view;
         userService = new UserService();
-        statusService = new StatusService();
+
         followService = new FollowService();
     }
 
@@ -40,14 +39,6 @@ public abstract class PagedPresenter<T> {
 
     public UserService getUserService() {
         return userService;
-    }
-
-    public FollowService getFollowService() {
-        return followService;
-    }
-
-    public StatusService getStatusService() {
-        return statusService;
     }
 
     public T getLastItem() {
