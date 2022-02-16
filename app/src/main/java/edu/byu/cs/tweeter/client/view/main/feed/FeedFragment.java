@@ -17,25 +17,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.squareup.picasso.Picasso;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.byu.cs.client.R;
 import edu.byu.cs.tweeter.client.presenter.FeedPresenter;
 import edu.byu.cs.tweeter.client.view.main.MainActivity;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
+import org.jetbrains.annotations.NotNull;
+
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implements the "Feed" tab.

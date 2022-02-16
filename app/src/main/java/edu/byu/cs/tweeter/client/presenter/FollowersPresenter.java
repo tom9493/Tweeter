@@ -1,10 +1,10 @@
 package edu.byu.cs.tweeter.client.presenter;
 
-import java.util.List;
-
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.model.domain.User;
+
+import java.util.List;
 
 public class FollowersPresenter extends PagedPresenter {
     public FollowersPresenter(View view) { super(view); }

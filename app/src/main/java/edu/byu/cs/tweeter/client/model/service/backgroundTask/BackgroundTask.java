@@ -4,10 +4,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import edu.byu.cs.tweeter.util.FakeData;
 
 import java.io.IOException;
-
-import edu.byu.cs.tweeter.util.FakeData;
 
 public abstract class BackgroundTask implements Runnable {
     private static final String LOG_TAG = "BackgroundTask";

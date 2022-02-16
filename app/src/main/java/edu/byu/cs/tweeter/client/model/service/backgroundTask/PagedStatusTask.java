@@ -1,13 +1,12 @@
 package edu.byu.cs.tweeter.client.model.service.backgroundTask;
 
 import android.os.Handler;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class PagedStatusTask extends PagedTask<Status> {
 

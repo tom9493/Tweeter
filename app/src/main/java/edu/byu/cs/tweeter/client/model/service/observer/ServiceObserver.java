@@ -1,10 +1,10 @@
 package edu.byu.cs.tweeter.client.model.service.observer;
 
-import java.io.Serializable;
-import java.util.List;
-
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
+
+import java.io.Serializable;
+import java.util.List;
 
 public interface ServiceObserver {
     void handleFailure(String message);

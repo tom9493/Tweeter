@@ -1,16 +1,8 @@
 package edu.byu.cs.tweeter.client.model.service;
 
 import android.os.Message;
-
 import androidx.annotation.NonNull;
-
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.FollowTask;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowersCountTask;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowersTask;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingCountTask;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingTask;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.IsFollowerTask;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.UnfollowTask;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.*;
 import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.client.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.client.presenter.FollowingPresenter;

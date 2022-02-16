@@ -1,9 +1,7 @@
 package edu.byu.cs.tweeter.client.model.service;
 
 import android.os.Message;
-
 import androidx.annotation.NonNull;
-
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetUserTask;
 import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.client.presenter.StoryPresenter;

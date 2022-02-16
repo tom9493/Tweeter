@@ -4,12 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Message;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
-
-import java.io.ByteArrayOutputStream;
-import java.util.Base64;
-
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LoginTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LogoutTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.RegisterTask;
@@ -19,6 +14,9 @@ import edu.byu.cs.tweeter.client.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.client.presenter.MainPresenter;
 import edu.byu.cs.tweeter.client.presenter.RegisterPresenter;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Base64;
 
 public class LoginService {
 

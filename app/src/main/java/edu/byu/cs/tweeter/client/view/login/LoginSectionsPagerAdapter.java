@@ -2,13 +2,11 @@ package edu.byu.cs.tweeter.client.view.login;
 
 import android.content.Context;
 import android.util.Log;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
 import edu.byu.cs.client.R;
 
 /**

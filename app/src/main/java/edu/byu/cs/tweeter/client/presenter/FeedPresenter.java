@@ -1,12 +1,12 @@
 package edu.byu.cs.tweeter.client.presenter;
 
-import java.net.MalformedURLException;
-import java.util.List;
-
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
+
+import java.net.MalformedURLException;
+import java.util.List;
 
 public class FeedPresenter extends PagedPresenter {
     public FeedPresenter(View view) {

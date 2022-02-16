@@ -1,12 +1,9 @@
 package edu.byu.cs.tweeter.client.view.login;
 
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.tabs.TabLayout;
-
 import edu.byu.cs.client.R;
 
 /**

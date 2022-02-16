@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-
 import androidx.annotation.NonNull;
-
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.BackgroundTask;
 import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 

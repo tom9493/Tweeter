@@ -2,15 +2,13 @@ package edu.byu.cs.tweeter.client.model.service;
 
 import android.os.Handler;
 import android.os.Message;
-
 import androidx.annotation.NonNull;
-
-import java.util.List;
-
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.PagedTask;
 import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
+
+import java.util.List;
 
 public class TaskHandler<T extends ServiceObserver> extends Handler {
     public T observer;
