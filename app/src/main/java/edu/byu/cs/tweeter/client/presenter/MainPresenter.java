@@ -25,9 +25,29 @@ public class MainPresenter {
 
     public MainPresenter(View view) {
         this.view = view;
-        followService = new FollowService();
-        loginService = new LoginService();
-        statusService = new StatusService();
+        followService = getFollowService();
+        statusService = getStatusService();
+    }
+
+    protected FollowService getFollowService() {
+        if (followService == null) {
+            followService = new FollowService();
+        }
+        return followService;
+    }
+
+    protected LoginService getLoginService() {
+        if (loginService == null) {
+            loginService = new LoginService();
+        }
+        return loginService;
+    }
+
+    protected StatusService getStatusService() {
+        if (statusService == null) {
+            statusService = new StatusService();
+        }
+        return statusService;
     }
 
     public void isFollower(User selectedUser) {
@@ -45,11 +65,11 @@ public class MainPresenter {
     }
 
     public void logout() {
-        loginService.logout(Cache.getInstance().getCurrUserAuthToken(), new LogoutObserver());
+        getLoginService().logout(Cache.getInstance().getCurrUserAuthToken(), new LogoutObserver());
     }
 
     public void postStatus(String post) throws Exception {
-        statusService.postStatus(post, Cache.getInstance().getCurrUser(),
+        getStatusService().postStatus(post, Cache.getInstance().getCurrUser(),
                 Cache.getInstance().getCurrUserAuthToken(), new PostStatusObserver());
     }
 
