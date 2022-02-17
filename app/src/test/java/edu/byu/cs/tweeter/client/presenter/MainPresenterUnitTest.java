@@ -9,6 +9,9 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNotNull;
+
 public class MainPresenterUnitTest {
     private MainPresenter.View mockView;
     private StatusService mockStatusService;
@@ -98,6 +101,7 @@ public class MainPresenterUnitTest {
         Mockito.doAnswer(answer).when(mockStatusService).postStatus(Mockito.any(),Mockito.any(),Mockito.any(),Mockito.any());
         mainPresenterSpy.postStatus("This is a status post!");
 
+        Mockito.verify(mockStatusService).postStatus(eq("This is a status post!"), Mockito.any(), Mockito.any(), isNotNull());
         Mockito.verify(mockView).postSuccess("Successfully posted!");
     }
 
@@ -115,6 +119,7 @@ public class MainPresenterUnitTest {
         Mockito.doAnswer(answer).when(mockStatusService).postStatus(Mockito.any(),Mockito.any(),Mockito.any(),Mockito.any());
         mainPresenterSpy.postStatus("This is a status post!");
 
+        Mockito.verify(mockStatusService).postStatus(eq("This is a status post!"), Mockito.any(), Mockito.any(), isNotNull());
         Mockito.verify(mockView).displayErrorMessage("Failed to post status: Error message");
     }
 
@@ -132,6 +137,7 @@ public class MainPresenterUnitTest {
         Mockito.doAnswer(answer).when(mockStatusService).postStatus(Mockito.any(),Mockito.any(),Mockito.any(),Mockito.any());
         mainPresenterSpy.postStatus("This is a status post!");
 
+        Mockito.verify(mockStatusService).postStatus(eq("This is a status post!"), Mockito.any(), Mockito.any(), isNotNull());
         Mockito.verify(mockView).displayErrorMessage("Failed to post status because of exception: Error message");
     }
 }
