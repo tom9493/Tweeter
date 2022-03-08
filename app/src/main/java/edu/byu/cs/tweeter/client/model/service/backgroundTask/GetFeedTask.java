@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class GetFeedTask extends PagedStatusTask {
 
+
+
     public GetFeedTask(AuthToken authToken, User targetUser, int limit, Status lastStatus,
                        Handler messageHandler) {
         super(authToken, targetUser, limit, lastStatus, messageHandler);

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import edu.byu.cs.tweeter.client.model.net.ServerFacade;
+import edu.byu.cs.tweeter.model.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.util.FakeData;
 
 import java.io.IOException;
@@ -20,6 +22,15 @@ public abstract class BackgroundTask implements Runnable {
      */
     private final Handler messageHandler;
 
+    private ServerFacade serverFacade;
+
+    public ServerFacade getServerFacade() {
+        if (serverFacade == null) {
+            serverFacade = new ServerFacade();
+        }
+        return serverFacade;
+    }
+
     protected BackgroundTask(Handler messageHandler) {
         this.messageHandler = messageHandler;
     }
@@ -34,11 +45,7 @@ public abstract class BackgroundTask implements Runnable {
         }
     }
 
-    protected abstract void runTask() throws IOException;
-
-    protected FakeData getFakeData() {
-        return new FakeData();
-    }
+    protected abstract void runTask() throws IOException, TweeterRemoteException;
 
     /**
      * Called by a Task's runTask method when it is successful.
