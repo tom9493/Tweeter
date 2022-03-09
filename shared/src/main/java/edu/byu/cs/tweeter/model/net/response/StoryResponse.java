@@ -9,11 +9,11 @@ public class StoryResponse extends PagedResponse {
 
     private List<Status> story;
 
-    StoryResponse(String message) {
+    public StoryResponse(String message) {
         super(message, false);
     }
 
-    StoryResponse(List<Status> story, boolean hasMorePages) {
+    public StoryResponse(List<Status> story, boolean hasMorePages) {
         super(hasMorePages);
         this.story = story;
     }

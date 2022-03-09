@@ -4,11 +4,11 @@ public class IsFollowerResponse extends Response {
 
     private boolean isFollower;
 
-    IsFollowerResponse(String message) {
+    public IsFollowerResponse(String message) {
         super(false, message);
     }
 
-    IsFollowerResponse(boolean isFollower) {
+    public IsFollowerResponse(boolean isFollower) {
         super(true);
         this.isFollower = isFollower;
     }

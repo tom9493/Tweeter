@@ -8,11 +8,11 @@ public class UserResponse extends Response {
 
     private User user;
 
-    UserResponse(String message) {
+    public UserResponse(String message) {
         super(false, message);
     }
 
-    UserResponse(User user) {
+    public UserResponse(User user) {
         super(true);
         this.user = user;
     }

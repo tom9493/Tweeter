@@ -6,11 +6,11 @@ public class FollowingCountResponse extends Response {
 
     private int count;
 
-    FollowingCountResponse(String message) {
+    public FollowingCountResponse(String message) {
         super(false, message);
     }
 
-    FollowingCountResponse(int count) {
+    public FollowingCountResponse(int count) {
         super(true);
         this.count = count;
     }

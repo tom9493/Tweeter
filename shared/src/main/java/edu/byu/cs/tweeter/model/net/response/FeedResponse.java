@@ -9,11 +9,11 @@ public class FeedResponse extends PagedResponse {
 
     private List<Status> feed;
 
-    FeedResponse(String message) {
+    public FeedResponse(String message) {
         super(message, false);
     }
 
-    FeedResponse(List<Status> feed, boolean hasMorePages) {
+    public FeedResponse(List<Status> feed, boolean hasMorePages) {
         super(hasMorePages);
         this.feed = feed;
     }
