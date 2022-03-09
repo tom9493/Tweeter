@@ -1,0 +1,45 @@
+package edu.byu.cs.tweeter.model.net.response;
+
+import edu.byu.cs.tweeter.model.domain.User;
+
+import java.util.Objects;
+
+public class UserResponse extends Response {
+
+    private User user;
+
+    UserResponse(String message) {
+        super(false, message);
+    }
+
+    UserResponse(boolean success, User user) {
+        super(success);
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    @Override
+    public boolean equals(Object param) {
+        if (this == param) {
+            return true;
+        }
+
+        if (param == null || getClass() != param.getClass()) {
+            return false;
+        }
+
+        UserResponse that = (UserResponse) param;
+
+        return (Objects.equals(user, that.user) &&
+                Objects.equals(this.getMessage(), that.getMessage()) &&
+                this.isSuccess() == that.isSuccess());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user);
+    }
+}

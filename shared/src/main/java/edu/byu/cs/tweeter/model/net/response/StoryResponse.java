@@ -5,20 +5,20 @@ import edu.byu.cs.tweeter.model.domain.Status;
 import java.util.List;
 import java.util.Objects;
 
-public class FeedResponse extends PagedResponse {
+public class StoryResponse extends PagedResponse {
 
-    private List<Status> feed;
+    private List<Status> story;
 
-    FeedResponse(boolean success, boolean hasMorePages) {
+    StoryResponse(boolean success, boolean hasMorePages) {
         super(success, hasMorePages);
     }
 
-    FeedResponse(boolean success, String message, boolean hasMorePages) {
+    StoryResponse(boolean success, String message, boolean hasMorePages) {
         super(success, message, hasMorePages);
     }
 
-    public List<Status> getFeed() {
-        return feed;
+    public List<Status> getStory() {
+        return story;
     }
 
     @Override
@@ -31,15 +31,15 @@ public class FeedResponse extends PagedResponse {
             return false;
         }
 
-        FeedResponse that = (FeedResponse) param;
+        StoryResponse that = (StoryResponse) param;
 
-        return (Objects.equals(feed, that.feed) &&
+        return (Objects.equals(story, that.story) &&
                 Objects.equals(this.getMessage(), that.getMessage()) &&
                 this.isSuccess() == that.isSuccess());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feed);
+        return Objects.hash(story);
     }
 }
