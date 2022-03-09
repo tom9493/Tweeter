@@ -9,12 +9,13 @@ public class FeedResponse extends PagedResponse {
 
     private List<Status> feed;
 
-    FeedResponse(boolean success, boolean hasMorePages) {
-        super(success, hasMorePages);
+    FeedResponse(String message) {
+        super(message, false);
     }
 
-    FeedResponse(boolean success, String message, boolean hasMorePages) {
-        super(success, message, hasMorePages);
+    FeedResponse(List<Status> feed, boolean hasMorePages) {
+        super(hasMorePages);
+        this.feed = feed;
     }
 
     public List<Status> getFeed() {

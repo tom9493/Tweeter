@@ -6,7 +6,6 @@ import android.os.Message;
 import android.util.Log;
 import edu.byu.cs.tweeter.client.model.net.ServerFacade;
 import edu.byu.cs.tweeter.model.net.TweeterRemoteException;
-import edu.byu.cs.tweeter.util.FakeData;
 
 import java.io.IOException;
 

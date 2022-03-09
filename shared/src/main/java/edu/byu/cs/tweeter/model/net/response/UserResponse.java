@@ -12,8 +12,8 @@ public class UserResponse extends Response {
         super(false, message);
     }
 
-    UserResponse(boolean success, User user) {
-        super(success);
+    UserResponse(User user) {
+        super(true);
         this.user = user;
     }
 

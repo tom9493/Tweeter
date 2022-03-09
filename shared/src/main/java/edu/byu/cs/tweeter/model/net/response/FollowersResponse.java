@@ -1,22 +1,20 @@
 package edu.byu.cs.tweeter.model.net.response;
 
+import edu.byu.cs.tweeter.model.domain.User;
+
 import java.util.List;
 import java.util.Objects;
-
-import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.model.net.request.FollowersRequest;
-import edu.byu.cs.tweeter.model.net.request.FollowingRequest;
 
 public class FollowersResponse extends PagedResponse {
 
     private List<User> followers;
 
     public FollowersResponse(String message) {
-        super(false, message, false);
+        super(message, false);
     }
 
     public FollowersResponse(List<User> followers, boolean hasMorePages) {
-        super(true, hasMorePages);
+        super(hasMorePages);
         this.followers = followers;
     }
 

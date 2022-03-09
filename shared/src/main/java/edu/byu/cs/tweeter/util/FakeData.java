@@ -1,15 +1,10 @@
 package edu.byu.cs.tweeter.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
+
+import java.util.*;
 
 /**
  * Generates fake (or "dummy") data for Milestone 2 and Milestone 3.

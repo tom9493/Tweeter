@@ -28,7 +28,7 @@ public class LoginResponse extends Response {
      * @param authToken the auth token representing this user's session with the server.
      */
     public LoginResponse(User user, AuthToken authToken) {
-        super(true, null);
+        super(true);
         this.user = user;
         this.authToken = authToken;
     }

@@ -6,12 +6,13 @@ public class FollowingCountResponse extends Response {
 
     private int count;
 
-    FollowingCountResponse(boolean success, String message) {
-        super(success, message);
+    FollowingCountResponse(String message) {
+        super(false, message);
     }
 
-    FollowingCountResponse(boolean success) {
-        super(success);
+    FollowingCountResponse(int count) {
+        super(true);
+        this.count = count;
     }
 
     public int getCount() { return count; }

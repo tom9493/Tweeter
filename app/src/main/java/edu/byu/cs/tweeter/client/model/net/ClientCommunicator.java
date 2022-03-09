@@ -1,17 +1,13 @@
 package edu.byu.cs.tweeter.client.model.net;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import edu.byu.cs.tweeter.model.net.TweeterRemoteException;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-
-import edu.byu.cs.tweeter.model.net.TweeterRemoteException;
 
 class ClientCommunicator {
 

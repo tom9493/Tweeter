@@ -2,7 +2,6 @@ package edu.byu.cs.tweeter.model.net.response;
 
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.model.net.request.RegisterRequest;
 
 public class RegisterResponse extends Response {
 
@@ -14,7 +13,7 @@ public class RegisterResponse extends Response {
     }
 
     public RegisterResponse(User user, AuthToken authToken) {
-        super(true, null);
+        super(true);
         this.user = user;
         this.authToken = authToken;
     }

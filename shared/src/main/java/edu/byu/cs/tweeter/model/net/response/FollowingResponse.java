@@ -1,10 +1,10 @@
 package edu.byu.cs.tweeter.model.net.response;
 
-import java.util.List;
-import java.util.Objects;
-
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.request.FollowingRequest;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A paged response for a {@link FollowingRequest}.
@@ -20,7 +20,7 @@ public class FollowingResponse extends PagedResponse {
      * @param message a message describing why the request was unsuccessful.
      */
     public FollowingResponse(String message) {
-        super(false, message, false);
+        super(message, false);
     }
 
     /**
@@ -30,7 +30,7 @@ public class FollowingResponse extends PagedResponse {
      * @param hasMorePages an indicator of whether more data is available for the request.
      */
     public FollowingResponse(List<User> followees, boolean hasMorePages) {
-        super(true, hasMorePages);
+        super(hasMorePages);
         this.followees = followees;
     }
 

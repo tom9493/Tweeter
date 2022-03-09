@@ -6,9 +6,7 @@ import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.model.net.request.FollowersRequest;
-import edu.byu.cs.tweeter.model.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.net.response.FollowersResponse;
-import edu.byu.cs.tweeter.model.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.util.Pair;
 
 import java.io.IOException;
@@ -21,7 +19,7 @@ public class GetFollowersTask extends PagedUserTask {
 
     public static final String FOLLOWERS_KEY = "followers";
 
-    private static final String LOG_TAG = "GetFollowingTask";
+    private static final String LOG_TAG = "GetFollowersTask";
     static final String URL_PATH = "/getfollowers";
 
     private FollowersRequest request;
@@ -43,10 +41,9 @@ public class GetFollowersTask extends PagedUserTask {
                 sendFailedMessage(response.getMessage());
             }
         } catch (IOException | TweeterRemoteException ex) {
-            Log.e(LOG_TAG, "Failed to get followees", ex);
+            Log.e(LOG_TAG, "Failed to get followers", ex);
             sendExceptionMessage(ex);
         }
-
         return null;
     }
 }
