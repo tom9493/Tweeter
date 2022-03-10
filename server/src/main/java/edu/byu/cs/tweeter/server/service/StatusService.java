@@ -10,7 +10,7 @@ import edu.byu.cs.tweeter.server.dao.StatusDAO;
 
 public class StatusService {
     public FeedResponse getFeed(FeedRequest request) {
-        if (request.getUserAlias() == null) {
+        if (request.getUser() == null) {
             throw new RuntimeException("[BadRequest] Feed Request needs specified user alias");
         } else if(request.getLimit() <= 0) {
             throw new RuntimeException("[BadRequest] Feed Request needs to have a positive limit");
@@ -19,7 +19,7 @@ public class StatusService {
     }
 
     public StoryResponse getStory(StoryRequest request) {
-        if (request.getUserAlias() == null) {
+        if (request.getUser() == null) {
             throw new RuntimeException("[BadRequest] Story Request needs specified user alias");
         } else if(request.getLimit() <= 0) {
             throw new RuntimeException("[BadRequest] Story Request needs to have a positive limit");

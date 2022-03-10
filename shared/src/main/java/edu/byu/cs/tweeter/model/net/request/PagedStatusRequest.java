@@ -2,12 +2,13 @@ package edu.byu.cs.tweeter.model.net.request;
 
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.Status;
+import edu.byu.cs.tweeter.model.domain.User;
 
 public abstract class PagedStatusRequest extends PagedRequest {
 
     private Status lastStatus;
-    public PagedStatusRequest(AuthToken authToken, String userAlias, int limit, Status lastStatus) {
-        super(authToken, userAlias, limit);
+    public PagedStatusRequest(AuthToken authToken, User user, int limit, Status lastStatus) {
+        super(authToken, user, limit);
     }
 
     public Status getLastStatus() {

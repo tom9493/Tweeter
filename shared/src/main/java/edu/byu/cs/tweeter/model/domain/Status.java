@@ -8,25 +8,11 @@ import java.util.Objects;
  * Represents a status (or tweet) posted by a user.
  */
 public class Status implements Serializable {
-    /**
-     * Text for the status.
-     */
+
     public String post;
-    /**
-     * User who sent the status.
-     */
     public User user;
-    /**
-     * String representation of the date/time at which the status was sent.
-     */
     public String datetime;
-    /**
-     * URLs contained in the post text.
-     */
     public List<String> urls;
-    /**
-     * User mentions contained in the post text.
-     */
     public List<String> mentions;
 
     public Status() {

@@ -26,7 +26,7 @@ public class GetStoryTask extends PagedStatusTask {
     public GetStoryTask(AuthToken authToken, User targetUser, int limit, Status lastStatus,
                         Handler messageHandler) {
         super(authToken, targetUser, limit, lastStatus, messageHandler);
-        this.request = new StoryRequest(authToken, targetUser.getAlias(), limit, lastStatus);
+        this.request = new StoryRequest(authToken, targetUser, limit, lastStatus);
     }
 
     @Override

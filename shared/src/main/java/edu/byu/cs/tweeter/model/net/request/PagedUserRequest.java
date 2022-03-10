@@ -1,21 +1,22 @@
 package edu.byu.cs.tweeter.model.net.request;
 
 import edu.byu.cs.tweeter.model.domain.AuthToken;
+import edu.byu.cs.tweeter.model.domain.User;
 
 public abstract class PagedUserRequest extends PagedRequest {
 
-    private String lastUserAlias;
+    private User lastUser;
 
-    public PagedUserRequest(AuthToken authToken, String userAlias, int limit, String lastUserAlias) {
-        super(authToken, userAlias, limit);
-        this.lastUserAlias = lastUserAlias;
+    public PagedUserRequest(AuthToken authToken, User user, int limit, User lastUser) {
+        super(authToken, user, limit);
+        this.lastUser = lastUser;
     }
 
-    public String getLastUserAlias() {
-        return lastUserAlias;
+    public User getLastUser() {
+        return lastUser;
     }
 
-    public void setLastUserAlias(String lastUserAlias) {
-        this.lastUserAlias = lastUserAlias;
+    public void setLastUserAlias(User lastUser) {
+        this.lastUser = lastUser;
     }
 }

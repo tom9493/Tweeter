@@ -1,16 +1,17 @@
 package edu.byu.cs.tweeter.model.net.request;
 
 import edu.byu.cs.tweeter.model.domain.AuthToken;
+import edu.byu.cs.tweeter.model.domain.User;
 
 public abstract class PagedRequest {
 
     private AuthToken authToken;
-    private String userAlias;
+    private User user;
     private int limit;
 
-    public PagedRequest(AuthToken authToken, String userAlias, int limit) {
+    public PagedRequest(AuthToken authToken, User user, int limit) {
         this.authToken = authToken;
-        this.userAlias = userAlias;
+        this.user = user;
         this.limit = limit;
     }
 
@@ -22,12 +23,12 @@ public abstract class PagedRequest {
         this.authToken = authToken;
     }
 
-    public String getUserAlias() {
-        return userAlias;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserAlias(String userAlias) {
-        this.userAlias = userAlias;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getLimit() {

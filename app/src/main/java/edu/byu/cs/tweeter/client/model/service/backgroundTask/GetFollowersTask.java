@@ -27,7 +27,7 @@ public class GetFollowersTask extends PagedUserTask {
     public GetFollowersTask(AuthToken authToken, User targetUser, int limit, User lastFollower,
                             Handler messageHandler) {
         super(authToken, targetUser, limit, lastFollower, messageHandler);
-        this.request = new FollowersRequest(authToken, targetUser.getAlias(), limit, lastFollower.getAlias());
+        this.request = new FollowersRequest(authToken, targetUser, limit, lastFollower);
     }
 
     @Override

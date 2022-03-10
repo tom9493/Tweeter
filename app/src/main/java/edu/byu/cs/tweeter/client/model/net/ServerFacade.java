@@ -14,7 +14,7 @@ public class ServerFacade {
 
     // TODO: Set this to the invoke URL of your API. Find it by going to your API in AWS, clicking
     //  on stages in the right-side menu, and clicking on the stage you deployed your API to.
-    private static final String SERVER_URL = "Insert your API invoke URL here";
+    private static final String SERVER_URL = "https://f1gl401d40.execute-api.us-west-1.amazonaws.com/TweeterStage";
 
     private final ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
 
@@ -86,6 +86,7 @@ public class ServerFacade {
     public StoryResponse getStory(StoryRequest request, String urlPath) throws IOException, TweeterRemoteException {
 
         StoryResponse response = clientCommunicator.doPost(urlPath, request, null, StoryResponse.class);
+        System.out.println("This is story response:" + response.isSuccess());
 
         if(response.isSuccess()) {
             return response;

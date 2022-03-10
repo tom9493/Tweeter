@@ -26,7 +26,7 @@ public class GetFeedTask extends PagedStatusTask {
     public GetFeedTask(AuthToken authToken, User targetUser, int limit, Status lastStatus,
                        Handler messageHandler) {
         super(authToken, targetUser, limit, lastStatus, messageHandler);
-        this.request = new FeedRequest(authToken, targetUser.getAlias(), limit, lastStatus);
+        this.request = new FeedRequest(authToken, targetUser, limit, lastStatus);
     }
 
     @Override

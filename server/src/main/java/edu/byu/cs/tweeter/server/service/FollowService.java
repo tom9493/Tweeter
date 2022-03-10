@@ -10,7 +10,7 @@ import edu.byu.cs.tweeter.server.dao.FollowDAO;
 public class FollowService {
 
     public FollowingResponse getFollowees(FollowingRequest request) {
-        if(request.getUserAlias() == null) {
+        if(request.getUser() == null) {
             throw new RuntimeException("[BadRequest] Following Request needs to have a follower alias");
         } else if(request.getLimit() <= 0) {
             throw new RuntimeException("[BadRequest] Following Request needs to have a positive limit");
@@ -19,7 +19,7 @@ public class FollowService {
     }
 
     public FollowersResponse getFollowers(FollowersRequest request) {
-        if(request.getUserAlias() == null) {
+        if(request.getUser() == null) {
             throw new RuntimeException("[BadRequest] Followers Request needs to have a follower alias");
         } else if(request.getLimit() <= 0) {
             throw new RuntimeException("[BadRequest] Followers Request needs to have a positive limit");

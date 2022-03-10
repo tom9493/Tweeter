@@ -42,7 +42,7 @@ public class FollowDAO {
     public FollowingResponse getFollowees(FollowingRequest request) {
         // TODO: Generates dummy data. Replace with a real implementation.
         assert request.getLimit() > 0;
-        assert request.getUserAlias() != null;
+        assert request.getUser() != null;
 
         List<User> allFollowees = getDummyFollowees();
         List<User> responseFollowees = new ArrayList<>(request.getLimit());
@@ -51,7 +51,7 @@ public class FollowDAO {
 
         if(request.getLimit() > 0) {
             if (allFollowees != null) {
-                int followeesIndex = getFolloweesStartingIndex(request.getLastUserAlias(), allFollowees);
+                int followeesIndex = getFolloweesStartingIndex(request.getLastUser(), allFollowees);
 
                 for(int limitCounter = 0; followeesIndex < allFollowees.size() && limitCounter < request.getLimit(); followeesIndex++, limitCounter++) {
                     responseFollowees.add(allFollowees.get(followeesIndex));
@@ -67,7 +67,7 @@ public class FollowDAO {
     public FollowersResponse getFollowers(FollowersRequest request) {
         // TODO: Generates dummy data. Replace with a real implementation.
         assert request.getLimit() > 0;
-        assert request.getUserAlias() != null;
+        assert request.getUser() != null;
 
         List<User> allFollowees = getDummyFollowees();
         List<User> responseFollowers = new ArrayList<>(request.getLimit());
@@ -76,7 +76,7 @@ public class FollowDAO {
 
         if(request.getLimit() > 0) {
             if (allFollowees != null) {
-                int followeesIndex = getFolloweesStartingIndex(request.getLastUserAlias(), allFollowees);
+                int followeesIndex = getFolloweesStartingIndex(request.getLastUser(), allFollowees);
 
                 for(int limitCounter = 0; followeesIndex < allFollowees.size() && limitCounter < request.getLimit(); followeesIndex++, limitCounter++) {
                     responseFollowers.add(allFollowees.get(followeesIndex));
@@ -89,15 +89,15 @@ public class FollowDAO {
         return new FollowersResponse(responseFollowers, hasMorePages);
     }
 
-    private int getFolloweesStartingIndex(String lastFolloweeAlias, List<User> allFollowees) {
+    private int getFolloweesStartingIndex(User lastFollowee, List<User> allFollowees) {
 
         int followeesIndex = 0;
 
-        if(lastFolloweeAlias != null) {
+        if(lastFollowee != null) {
             // This is a paged request for something after the first page. Find the first item
             // we should return
             for (int i = 0; i < allFollowees.size(); i++) {
-                if(lastFolloweeAlias.equals(allFollowees.get(i).getAlias())) {
+                if(lastFollowee == allFollowees.get(i)) {
                     // We found the index of the last item returned last time. Increment to get
                     // to the first one we should return
                     followeesIndex = i + 1;
