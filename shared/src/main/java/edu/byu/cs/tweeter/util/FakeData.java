@@ -47,7 +47,7 @@ public class FakeData {
     /**
      * Generated auth token.
      */
-    private static final AuthToken authToken = new AuthToken();
+    private static final AuthToken authToken = new AuthToken("token", "datetime");
 
     /**
      * List of generated users.
@@ -124,7 +124,7 @@ public class FakeData {
     }
 
     public AuthToken getAuthToken() {
-        return authToken;
+        return new AuthToken("token", "datetime");
     }
 
     public User findUserByAlias(String alias) {

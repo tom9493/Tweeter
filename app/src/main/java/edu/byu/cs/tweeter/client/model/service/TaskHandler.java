@@ -1,6 +1,7 @@
 package edu.byu.cs.tweeter.client.model.service;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import androidx.annotation.NonNull;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.PagedTask;
@@ -12,7 +13,9 @@ import java.util.List;
 
 public class TaskHandler<T extends ServiceObserver> extends Handler {
     public T observer;
-    public TaskHandler(T observer) { this.observer = observer; }
+    public TaskHandler(T observer) {
+        super(Looper.getMainLooper());
+        this.observer = observer; }
 
     public abstract class ItemsHandler extends TaskHandler {
         private final ServiceObserver.GetItemsObserver observer;

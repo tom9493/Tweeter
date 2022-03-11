@@ -2,6 +2,7 @@ package edu.byu.cs.tweeter.client.model.service.backgroundTask;
 
 import android.os.Bundle;
 import android.os.Handler;
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.util.Pair;
@@ -34,6 +35,9 @@ public abstract class AuthenticateTask extends BackgroundTask {
         if (loginResult != null) {
             authenticatedUser = loginResult.getFirst();
             authToken = loginResult.getSecond();
+            Cache.getInstance().setCurrUserAuthToken(authToken);
+            System.out.println("currUserAuthToken: " + Cache.getInstance().getCurrUserAuthToken().getToken());
+
             sendSuccessMessage();
         }
         // Fail message sent in specific task

@@ -15,6 +15,7 @@
         <activity
             android:name="edu.byu.cs.tweeter.client.view.login.LoginActivity"
             android:label="@string/title_activity_login"
+            android:exported = "true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

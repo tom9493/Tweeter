@@ -37,7 +37,9 @@ public class UserService {
     }
 
     public UserResponse getUser(UserRequest request) {
-        if (request.getUserAlias() == null) {
+        if (!request.getAuthToken().equals(getDummyAuthToken())) {
+            throw new RuntimeException("[BadRequest] User Request needs valid authToken");
+        } else if (request.getUserAlias() == null) {
             throw new RuntimeException("[BadRequest] User Request needs valid user alias");
         }
         return getUserDAO().getUser(request);
@@ -51,22 +53,10 @@ public class UserService {
         return new UserDAO();
     }
 
-    /**
-     * Returns the dummy auth token to be returned by the login operation.
-     * This is written as a separate method to allow mocking of the dummy auth token.
-     *
-     * @return a dummy auth token.
-     */
     AuthToken getDummyAuthToken() {
         return getFakeData().getAuthToken();
     }
 
-    /**
-     * Returns the {@link FakeData} object used to generate dummy users and auth tokens.
-     * This is written as a separate method to allow mocking of the {@link FakeData}.
-     *
-     * @return a {@link FakeData} instance.
-     */
     FakeData getFakeData() {
         return new FakeData();
     }

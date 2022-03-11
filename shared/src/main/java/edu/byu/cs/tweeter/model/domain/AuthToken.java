@@ -38,4 +38,13 @@ public class AuthToken implements Serializable {
     public String getDatetime() {
         return datetime;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AuthToken that = (AuthToken) o;
+        return that.getToken().equals(this.getToken()) &&
+                that.getDatetime().equals(this.getDatetime());
+    }
 }

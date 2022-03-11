@@ -6,7 +6,6 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFeedTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetStoryTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.PostStatusTask;
 import edu.byu.cs.tweeter.client.model.service.observer.ServiceObserver;
-import edu.byu.cs.tweeter.client.presenter.FeedPresenter;
 import edu.byu.cs.tweeter.client.presenter.MainPresenter;
 import edu.byu.cs.tweeter.client.presenter.StoryPresenter;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
@@ -29,7 +28,7 @@ public class StatusService {
         new ExecuteTask<>(getStoryTask);
     }
 
-    public void getFeed(AuthToken currUserAuthToken, User user, int pageSize, Status lastStatus, FeedPresenter.GetFeedObserver getFeedObserver) {
+    public void getFeed(AuthToken currUserAuthToken, User user, int pageSize, Status lastStatus, ServiceObserver.GetItemsObserver getFeedObserver) {
         GetFeedTask getFeedTask = new GetFeedTask(currUserAuthToken,
                 user, pageSize, lastStatus, new GetFeedHandler(getFeedObserver));
         new ExecuteTask<>(getFeedTask);

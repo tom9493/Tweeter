@@ -20,6 +20,9 @@ public class FeedPresenter extends PagedPresenter {
     public void loadMoreItems(User user) throws MalformedURLException {
         if (!isLoading()) {
             setLoadInfo(true);
+            System.out.println("Feed Cache.getInstance().getCurrUserAuthToken(): " + Cache.getInstance().getCurrUserAuthToken().getToken());
+            System.out.println("Feed Cache.getInstance().getCurrUserAuthToken(): " + Cache.getInstance().getCurrUserAuthToken().getDatetime());
+
             statusService.getFeed(Cache.getInstance().getCurrUserAuthToken(), user,
                     getPageSize(), (Status) getLastItem(), new FeedPresenter.GetFeedObserver());
         }

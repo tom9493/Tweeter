@@ -30,7 +30,7 @@ public class LoginTask extends AuthenticateTask {
     protected Pair<User, AuthToken> runAuthenticationTask() {
         try {
             LoginResponse response = getServerFacade().login(request, URL_PATH);
-
+            //System.out.println("login response authtoken: " + response.getAuthToken().getToken());
             if(response.isSuccess()) {
                 return new Pair<>(response.getUser(), response.getAuthToken());
             } else {

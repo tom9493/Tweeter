@@ -52,6 +52,7 @@ public abstract class BackgroundTask implements Runnable {
      * This method is public to make it accessible to test cases
      */
     public void sendSuccessMessage() {
+        System.out.println("In sendSuccessMessage");
         Bundle msgBundle = new Bundle();
         msgBundle.putBoolean(SUCCESS_KEY, true);
         loadSuccessBundle(msgBundle);
