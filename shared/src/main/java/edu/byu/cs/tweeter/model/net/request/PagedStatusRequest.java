@@ -9,6 +9,7 @@ public abstract class PagedStatusRequest extends PagedRequest {
     private Status lastStatus;
     public PagedStatusRequest(AuthToken authToken, User user, int limit, Status lastStatus) {
         super(authToken, user, limit);
+        this.lastStatus = lastStatus;
     }
 
     public Status getLastStatus() {

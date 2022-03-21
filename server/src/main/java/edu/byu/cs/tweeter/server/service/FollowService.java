@@ -30,6 +30,7 @@ public class FollowService {
         } else if(request.getLimit() <= 0) {
             throw new RuntimeException("[BadRequest] Followers Request needs to have a positive limit");
         }
+        //if (request.getLastUser() == null) { return new FollowersResponse("null in followService getFollowers"); }
         return getFollowDAO().getFollowers(request);
     }
 

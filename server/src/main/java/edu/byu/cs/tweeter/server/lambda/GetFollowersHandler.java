@@ -11,6 +11,7 @@ public class GetFollowersHandler implements RequestHandler<FollowersRequest, Fol
     @Override
     public FollowersResponse handleRequest(FollowersRequest request, Context context) {
         FollowService service = new FollowService();
+        //if (request.getLastUser() == null) { return new FollowersResponse("null in handleRequest"); }
         return service.getFollowers(request);
     }
 }

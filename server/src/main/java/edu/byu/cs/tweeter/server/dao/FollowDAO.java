@@ -68,7 +68,7 @@ public class FollowDAO {
         // TODO: Generates dummy data. Replace with a real implementation.
         assert request.getLimit() > 0;
         assert request.getUser() != null;
-
+        //if (request.getLastUser() == null) { return new FollowersResponse("null in followDAO getFollowers"); }
         List<User> allFollowees = getDummyFollowees();
         List<User> responseFollowers = new ArrayList<>(request.getLimit());
 
@@ -97,7 +97,7 @@ public class FollowDAO {
             // This is a paged request for something after the first page. Find the first item
             // we should return
             for (int i = 0; i < allFollowees.size(); i++) {
-                if(lastFollowee == allFollowees.get(i)) {
+                if(lastFollowee.equals(allFollowees.get(i))) {
                     // We found the index of the last item returned last time. Increment to get
                     // to the first one we should return
                     followeesIndex = i + 1;

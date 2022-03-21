@@ -16,7 +16,7 @@ public abstract class PagedUserRequest extends PagedRequest {
         return lastUser;
     }
 
-    public void setLastUserAlias(User lastUser) {
+    public void setLastUser(User lastUser) {
         this.lastUser = lastUser;
     }
 }

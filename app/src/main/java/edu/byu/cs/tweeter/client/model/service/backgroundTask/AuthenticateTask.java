@@ -36,7 +36,6 @@ public abstract class AuthenticateTask extends BackgroundTask {
             authenticatedUser = loginResult.getFirst();
             authToken = loginResult.getSecond();
             Cache.getInstance().setCurrUserAuthToken(authToken);
-            System.out.println("currUserAuthToken: " + Cache.getInstance().getCurrUserAuthToken().getToken());
 
             sendSuccessMessage();
         }

@@ -86,7 +86,6 @@ public class ServerFacade {
     public StoryResponse getStory(StoryRequest request, String urlPath) throws IOException, TweeterRemoteException {
 
         StoryResponse response = clientCommunicator.doPost(urlPath, request, null, StoryResponse.class);
-        System.out.println("This is story response:" + response.isSuccess());
 
         if(response.isSuccess()) {
             return response;
