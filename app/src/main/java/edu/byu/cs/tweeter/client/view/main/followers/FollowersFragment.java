@@ -150,7 +150,6 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
             userName.setText(user.getName());
 
             Picasso.get().load(user.getImageUrl()).into(userImage);
-
         }
 
         /**
@@ -191,6 +190,7 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
          */
         void addItems(List<User> newUsers) {
             int startInsertPosition = users.size();
+            System.out.println("These are the new Users in FollowersFragment: " + newUsers);
             users.addAll(newUsers);
             this.notifyItemRangeInserted(startInsertPosition, newUsers.size());
         }

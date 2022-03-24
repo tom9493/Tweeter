@@ -30,7 +30,10 @@ import edu.byu.cs.tweeter.model.domain.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.MalformedURLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -162,10 +165,11 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
          * @param status the status.
          */
         void bindStatus(Status status) {
+            DateFormat simple = new SimpleDateFormat("MMM d yyyy h:mm aaa");
             Picasso.get().load(status.getUser().getImageUrl()).into(userImage);
             userAlias.setText(status.getUser().getAlias());
             userName.setText(status.getUser().getName());
-            datetime.setText(status.getDate());
+            datetime.setText(simple.format(new Date(status.getTimeStamp())));
 
             // @mentions and urls clickable
             SpannableString spannableString = new SpannableString(status.getPost());
@@ -318,7 +322,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
          * loading footer view) at the bottom of the list.
          */
         private void addLoadingFooter() {
-            addItem(new Status("Dummy Post", new User("firstName", "lastName", "@coolAlias"), "2020-10-31 00:00:00", new ArrayList<String>() {{
+            addItem(new Status("Dummy Post", new User("firstName", "lastName", "@coolAlias"), System.currentTimeMillis(), new ArrayList<String>() {{
                 add("https://youtube.com");
             }}, new ArrayList<String>() {{
                 add("@Dude1");

@@ -11,17 +11,16 @@ public class Status implements Serializable {
 
     public String post;
     public User user;
-    public String datetime;
+    public long timeStamp;
     public List<String> urls;
     public List<String> mentions;
 
-    public Status() {
-    }
+    public Status() {}
 
-    public Status(String post, User user, String datetime, List<String> urls, List<String> mentions) {
+    public Status(String post, User user, long timeStamp, List<String> urls, List<String> mentions) {
         this.post = post;
         this.user = user;
-        this.datetime = datetime;
+        this.timeStamp = timeStamp;
         this.urls = urls;
         this.mentions = mentions;
     }
@@ -34,8 +33,10 @@ public class Status implements Serializable {
         return user;
     }
 
-    public String getDate() {
-        return datetime;
+    public void setTimeStamp(long timeStamp) { this.timeStamp = timeStamp; }
+
+    public long getTimeStamp() {
+        return timeStamp;
     }
 
     public String getPost() {
@@ -57,22 +58,22 @@ public class Status implements Serializable {
         Status status = (Status) o;
         return Objects.equals(post, status.post) &&
                 Objects.equals(user, status.user) &&
-                Objects.equals(datetime, status.datetime) &&
+                Objects.equals(timeStamp, status.timeStamp) &&
                 Objects.equals(mentions, status.mentions) &&
                 Objects.equals(urls, status.urls);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(post, user, datetime, mentions, urls);
+        return Objects.hash(post, user, timeStamp, mentions, urls);
     }
 
     @Override
     public String toString() {
         return "Status{" +
                 "post='" + post + '\'' +
-                ", user=" + user +
-                ", datetime=" + datetime +
+                ", userAlias=" + user +
+                ", timeStamp=" + timeStamp +
                 ", mentions=" + mentions +
                 ", urls=" + urls +
                 '}';

@@ -20,9 +20,9 @@ public class PostStatusTask extends AuthenticatedTask {
 
     private PostStatusRequest request;
 
-    public PostStatusTask(AuthToken authToken, Status status, Handler messageHandler) {
+    public PostStatusTask(AuthToken authToken, Status status, long timeStamp, Handler messageHandler) {
         super(authToken, messageHandler);
-        this.request = new PostStatusRequest(authToken, status);
+        this.request = new PostStatusRequest(authToken, status, timeStamp);
     }
 
     @Override

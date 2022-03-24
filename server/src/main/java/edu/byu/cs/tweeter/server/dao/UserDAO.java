@@ -1,53 +1,51 @@
 package edu.byu.cs.tweeter.server.dao;
 
-import edu.byu.cs.tweeter.model.domain.AuthToken;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.Table;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.model.net.request.LoginRequest;
-import edu.byu.cs.tweeter.model.net.request.LogoutRequest;
-import edu.byu.cs.tweeter.model.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.model.net.request.UserRequest;
-import edu.byu.cs.tweeter.model.net.response.LoginResponse;
-import edu.byu.cs.tweeter.model.net.response.LogoutResponse;
-import edu.byu.cs.tweeter.model.net.response.RegisterResponse;
-import edu.byu.cs.tweeter.model.net.response.UserResponse;
-import edu.byu.cs.tweeter.util.FakeData;
+import edu.byu.cs.tweeter.server.Interface.UserDAOInterface;
 
-import java.util.List;
-import java.util.Objects;
+public class UserDAO implements UserDAOInterface {
+    protected static final AmazonDynamoDB amazonDynamoDB = AmazonDynamoDBClientBuilder.standard().withRegion("us-west-1").build();
+    protected static final DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
+    private final Table table = dynamoDB.getTable("User");
+    private final String partitionKey = "user_alias";
+    private final String passwordKey = "password";
+    private final String firstKey = "firstname";
+    private final String lastKey = "lastname";
+    private final String imageKey = "imageURL";
 
-public class UserDAO {
-
-    public LoginResponse login(LoginRequest request) {
-        return new LoginResponse(getFakeData().getFirstUser(), getDummyAuthToken());
+    @Override
+    public User addUser(String username, String password, String firstName, String lastName, String imageURL) {
+        if (getUser(username) != null) { return null; }
+        Item item = new Item().withPrimaryKey(partitionKey, username)
+                .withString(passwordKey, password)
+                .withString(firstKey, firstName)
+                .withString(lastKey, lastName)
+                .withString(imageKey, imageURL);
+        table.putItem(item);
+        return new User(firstName, lastName, username, imageURL);
     }
 
-    public RegisterResponse register(RegisterRequest request) {
-        return new RegisterResponse(getFakeData().getFirstUser(), getDummyAuthToken());
-    }
-
-    public UserResponse getUser(UserRequest request) {
-        List<User> users = getFakeUsers();
-        for (int i = 0; i < users.size(); ++i) {
-            if (Objects.equals(users.get(i).getAlias(), request.getUserAlias())) {
-                return new UserResponse(users.get(i));
-            }
+    @Override
+    public User getUser(String userAlias) {
+        Item item = table.getItem(partitionKey, userAlias);
+        if (item != null) {
+            return new User(item.getString(firstKey), item.getString(lastKey), item.getString(partitionKey),
+                    item.getString(imageKey));
         }
-        return new UserResponse("Not a valid user");
+        return null;
     }
 
-    public LogoutResponse logout(LogoutRequest request) {
-        return new LogoutResponse();
+    @Override
+    public User getUser(String username, String password) {
+        Item item = table.getItem(partitionKey, username);
+        if (item.getString(passwordKey).equals(password)) {
+            return new User(item.getString(firstKey), item.getString(lastKey), item.getString(partitionKey), item.getString(imageKey));
+        }
+        return null;
     }
-
-    AuthToken getDummyAuthToken() {
-        return getFakeData().getAuthToken();
-    }
-
-    List<User> getFakeUsers() { return getFakeData().getFakeUsers(); }
-
-    FakeData getFakeData() {
-        return new FakeData();
-    }
-
-
 }

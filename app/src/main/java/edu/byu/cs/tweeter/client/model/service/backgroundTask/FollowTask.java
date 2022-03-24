@@ -20,9 +20,9 @@ public class FollowTask extends AuthenticatedTask {
 
     private FollowRequest request;
 
-    public FollowTask(AuthToken authToken, User followee, Handler messageHandler) {
+    public FollowTask(AuthToken authToken, User follower, User followee, Handler messageHandler) {
         super(authToken, messageHandler);
-        this.request = new FollowRequest(authToken, followee);
+        this.request = new FollowRequest(authToken, follower, followee);
     }
 
     @Override

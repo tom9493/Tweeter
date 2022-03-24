@@ -20,7 +20,6 @@ public abstract class PagedPresenter<T> {
     public PagedPresenter(View view) {
         this.view = view;
         userService = new UserService();
-
         followService = new FollowService();
     }
 

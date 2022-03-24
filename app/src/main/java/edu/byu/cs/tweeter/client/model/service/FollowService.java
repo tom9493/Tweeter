@@ -30,14 +30,14 @@ public class FollowService {
         new ExecuteTask<>(isFollowerTask);
     }
 
-    public void unfollow(AuthToken authToken, User selectedUser, MainPresenter.UnfollowObserver unfollowObserver){
-        UnfollowTask unfollowTask = new UnfollowTask(authToken, selectedUser,
+    public void unfollow(AuthToken authToken, User currentUser, User selectedUser, MainPresenter.UnfollowObserver unfollowObserver){
+        UnfollowTask unfollowTask = new UnfollowTask(authToken, currentUser, selectedUser,
                 new UnfollowHandler(unfollowObserver));
         new ExecuteTask<>(unfollowTask);
     }
 
-    public void follow(AuthToken authToken, User selectedUser, MainPresenter.FollowObserver followObserver) {
-        FollowTask followTask = new FollowTask(authToken, selectedUser,
+    public void follow(AuthToken authToken, User currentUser, User selectedUser, MainPresenter.FollowObserver followObserver) {
+        FollowTask followTask = new FollowTask(authToken, currentUser, selectedUser,
                 new FollowHandler(followObserver));
         new ExecuteTask<>(followTask);
     }
@@ -111,7 +111,7 @@ public class FollowService {
         }
         @Override
         public void handleMessage(@NonNull Message msg) {
-            boolean success = msg.getData().getBoolean(UnfollowTask.SUCCESS_KEY);
+            boolean success = msg.getData().getBoolean(FollowTask.SUCCESS_KEY);
             if (success) { handleSuccess(); }
             else { handleError(msg, FollowTask.MESSAGE_KEY, FollowTask.EXCEPTION_KEY); }
         }

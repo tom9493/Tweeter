@@ -95,7 +95,7 @@ public class LoginService {
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            boolean success = msg.getData().getBoolean(UnfollowTask.SUCCESS_KEY);
+            boolean success = msg.getData().getBoolean(LogoutTask.SUCCESS_KEY);
             if (success) { handleSuccess(); }
             else { handleError(msg, LogoutTask.MESSAGE_KEY, LogoutTask.EXCEPTION_KEY); }
         }
@@ -107,7 +107,9 @@ public class LoginService {
         }
         @Override
         public void handleMessage(@NonNull Message msg) {
-            boolean success = msg.getData().getBoolean(LoginTask.SUCCESS_KEY);
+
+            boolean success = msg.getData().getBoolean(RegisterTask.SUCCESS_KEY);
+            System.out.println("This is success in handler: " + success);
             if (success) { handleLoginSuccess(msg, RegisterTask.USER_KEY, RegisterTask.AUTH_TOKEN_KEY); }
             else { handleError(msg, RegisterTask.MESSAGE_KEY, RegisterTask.EXCEPTION_KEY);}
         }

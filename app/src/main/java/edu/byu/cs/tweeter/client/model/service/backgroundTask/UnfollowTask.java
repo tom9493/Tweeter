@@ -20,9 +20,9 @@ public class UnfollowTask extends AuthenticatedTask {
 
     private UnfollowRequest request;
 
-    public UnfollowTask(AuthToken authToken, User followee, Handler messageHandler) {
+    public UnfollowTask(AuthToken authToken, User follower, User followee, Handler messageHandler) {
         super(authToken, messageHandler);
-        this.request = new UnfollowRequest(authToken, followee);
+        this.request = new UnfollowRequest(authToken, follower, followee);
     }
 
     @Override

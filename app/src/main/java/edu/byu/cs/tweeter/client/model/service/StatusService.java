@@ -35,8 +35,8 @@ public class StatusService {
     }
 
     public void postStatus(String post, User currentUser, AuthToken authToken, MainPresenter.PostStatusObserver postStatusObserver) throws Exception {
-        Status newStatus = new Status(post, currentUser, getFormattedDateTime(), parseURLs(post), parseMentions(post));
-        PostStatusTask statusTask = new PostStatusTask(authToken, newStatus,
+        Status newStatus = new Status(post, currentUser, System.currentTimeMillis(), parseURLs(post), parseMentions(post));
+        PostStatusTask statusTask = new PostStatusTask(authToken, newStatus, System.currentTimeMillis(),
                 new PostStatusHandler(postStatusObserver));
         new ExecuteTask<>(statusTask);
     }

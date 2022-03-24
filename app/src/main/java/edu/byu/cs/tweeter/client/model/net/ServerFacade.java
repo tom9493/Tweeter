@@ -11,9 +11,6 @@ import java.io.IOException;
  * this class.
  */
 public class ServerFacade {
-
-    // TODO: Set this to the invoke URL of your API. Find it by going to your API in AWS, clicking
-    //  on stages in the right-side menu, and clicking on the stage you deployed your API to.
     private static final String SERVER_URL = "https://f1gl401d40.execute-api.us-west-1.amazonaws.com/TweeterStage";
 
     private final ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
@@ -52,7 +49,7 @@ public class ServerFacade {
             throws IOException, TweeterRemoteException {
 
         FollowingResponse response = clientCommunicator.doPost(urlPath, request, null, FollowingResponse.class);
-
+        //System.out.println("getFollowees response:" + response.getFollowees());
         if(response.isSuccess()) {
             return response;
         } else {
@@ -64,7 +61,7 @@ public class ServerFacade {
             throws IOException, TweeterRemoteException {
 
         FollowersResponse response = clientCommunicator.doPost(urlPath, request, null, FollowersResponse.class);
-
+        //System.out.println("getFollowers response:" + response.getFollowers());
         if(response.isSuccess()) {
             return response;
         } else {

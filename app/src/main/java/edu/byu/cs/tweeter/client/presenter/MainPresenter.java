@@ -56,11 +56,11 @@ public class MainPresenter {
     }
 
     public void unFollow(User selectedUser) {
-        followService.unfollow(Cache.getInstance().getCurrUserAuthToken(), selectedUser, new UnfollowObserver());
+        followService.unfollow(Cache.getInstance().getCurrUserAuthToken(), Cache.getInstance().getCurrUser(), selectedUser, new UnfollowObserver());
     }
 
     public void follow(User selectedUser) {
-        followService.follow(Cache.getInstance().getCurrUserAuthToken(), selectedUser, new FollowObserver());
+        followService.follow(Cache.getInstance().getCurrUserAuthToken(), Cache.getInstance().getCurrUser(), selectedUser, new FollowObserver());
 
     }
 

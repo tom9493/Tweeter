@@ -13,7 +13,7 @@ public class AuthToken implements Serializable {
     /**
      * String representation of date/time at which the auth token was created.
      */
-    public String datetime;
+    public long timeStamp;
 
     public AuthToken() {
     }
@@ -22,9 +22,9 @@ public class AuthToken implements Serializable {
         this.token = token;
     }
 
-    public AuthToken(String token, String datetime) {
+    public AuthToken(String token, long timeStamp) {
         this.token = token;
-        this.datetime = datetime;
+        this.timeStamp = timeStamp;
     }
 
     public String getToken() {
@@ -35,8 +35,12 @@ public class AuthToken implements Serializable {
         this.token = token;
     }
 
-    public String getDatetime() {
-        return datetime;
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     @Override
@@ -45,6 +49,6 @@ public class AuthToken implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         AuthToken that = (AuthToken) o;
         return that.getToken().equals(this.getToken()) &&
-                that.getDatetime().equals(this.getDatetime());
+                that.getTimeStamp() == this.getTimeStamp();
     }
 }
