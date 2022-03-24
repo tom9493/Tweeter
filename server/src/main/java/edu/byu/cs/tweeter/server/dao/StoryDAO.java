@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Long.parseLong;
+
 public class StoryDAO implements StoryDAOInterface {
     private final String partKey = "sender_alias";
     private final String sortKey = "time_stamp";
@@ -39,8 +41,7 @@ public class StoryDAO implements StoryDAOInterface {
                 .withTableName(table.getTableName())
                 .withKeyConditionExpression("#partKey = :sender_alias")
                 .withExpressionAttributeNames(attrNames)
-                .withExpressionAttributeValues(attrValues)
-                .withLimit(pageSize);
+                .withExpressionAttributeValues(attrValues);
 
 //        if (lastStatus != null) {
 //            Map<String, AttributeValue> startKey = new HashMap<>();
@@ -54,7 +55,7 @@ public class StoryDAO implements StoryDAOInterface {
         List<Map<String,AttributeValue>> items = queryResult.getItems();
         if (items != null) {
             for (Map<String,AttributeValue> item : items) {
-                Status status = new Status(item.get("post").getS(), user, item.get("time_stamp").getB().getLong(),
+                Status status = new Status(item.get("post").getS(), user, parseLong(item.get("time_stamp").getN()),
                         item.get("urls").getSS(), item.get("mentions").getSS());
                 story.add(status);
             }

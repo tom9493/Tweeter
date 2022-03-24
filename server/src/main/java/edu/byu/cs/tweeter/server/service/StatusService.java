@@ -1,7 +1,6 @@
 package edu.byu.cs.tweeter.server.service;
 
 import edu.byu.cs.tweeter.model.domain.Status;
-import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.request.FeedRequest;
 import edu.byu.cs.tweeter.model.net.request.PostStatusRequest;
 import edu.byu.cs.tweeter.model.net.request.StoryRequest;
@@ -25,9 +24,9 @@ public class StatusService extends PagedService {
 
             List<Status> allStatuses = factory.getFeedDAO().getFeed(request.getUser(), request.getLimit(), request.getLastStatus()); // getFeed
 
-//            for (int i = 0; i < allStatuses.size(); ++i) { // These statuses have a null user object. Populate them?
-//
-//            }
+            for (int i = 0; i < allStatuses.size(); ++i) { // These statuses have a null user object. Populate them?
+                allStatuses.get(i).setUser(getUserDAO().getUser(allStatuses.get(i).getSenderAlias()));
+            }
 
             List<Status> responseStatuses = new ArrayList<>(request.getLimit());
             boolean hasMorePages = false;

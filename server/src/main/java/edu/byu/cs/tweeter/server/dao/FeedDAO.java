@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Long.parseLong;
+
 public class FeedDAO implements FeedDAOInterface {
     private final String partKey = "receiver_alias";
     private final String sortKey = "time_stamp";
@@ -39,8 +41,8 @@ public class FeedDAO implements FeedDAOInterface {
                 .withTableName(table.getTableName())
                 .withKeyConditionExpression("#part = :receiver_alias")
                 .withExpressionAttributeNames(attrNames)
-                .withExpressionAttributeValues(attrValues)
-                .withLimit(pageSize);
+                .withExpressionAttributeValues(attrValues);
+                //.withLimit(pageSize);
 
 //        if (lastStatus != null) {
 //            Map<String, AttributeValue> startKey = new HashMap<>();
@@ -54,8 +56,9 @@ public class FeedDAO implements FeedDAOInterface {
         List<Map<String, AttributeValue>> items = queryResult.getItems();
         if (items != null) {
             for (Map<String, AttributeValue> item : items) {
-                Status status = new Status(item.get("post").getS(), null, item.get("time_stamp").getB().getLong(),
+                Status status = new Status(item.get("post").getS(), null, parseLong(item.get("time_stamp").getN()),
                         item.get("urls").getSS(), item.get("mentions").getSS());
+                status.setSenderAlias(item.get("sender_alias").getS());
                 feed.add(status);
             }
         }

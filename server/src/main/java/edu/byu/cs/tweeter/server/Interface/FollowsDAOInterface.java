@@ -1,7 +1,5 @@
 package edu.byu.cs.tweeter.server.Interface;
 
-import edu.byu.cs.tweeter.model.domain.User;
-
 import java.util.List;
 
 public interface FollowsDAOInterface {

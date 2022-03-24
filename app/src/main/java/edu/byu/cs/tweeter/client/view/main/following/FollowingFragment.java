@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,9 +141,13 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
          * @param user the user.
          */
         void bindUser(User user) {
-            userAlias.setText(user.getAlias());
-            userName.setText(user.getName());
-            Picasso.get().load(user.getImageUrl()).into(userImage);
+            if (user == null) {
+                Log.e(LOG_TAG, "user is null!");
+            } else {
+                userAlias.setText(user.getAlias());
+                userName.setText(user.getName());
+                Picasso.get().load(user.getImageUrl()).into(userImage);
+            }
         }
 
     }

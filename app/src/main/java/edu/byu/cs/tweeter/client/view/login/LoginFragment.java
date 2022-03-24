@@ -70,7 +70,6 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
 
     @Override
     public void login(User loggedInUser, String message) {
-        System.out.println("ImageURL: " + loggedInUser.getImageUrl());
         Intent intent = new Intent(getContext(), MainActivity.class);
         intent.putExtra(MainActivity.CURRENT_USER_KEY, loggedInUser);
 

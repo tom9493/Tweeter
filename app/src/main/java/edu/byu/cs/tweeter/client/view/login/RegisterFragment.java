@@ -100,7 +100,6 @@ public class RegisterFragment extends Fragment implements RegisterPresenter.View
 
     @Override
     public void login(User registeredUser, String message) {
-        System.out.println("ImageURL: " + registeredUser.getImageUrl());
         Intent intent = new Intent(getContext(), MainActivity.class);
         intent.putExtra(MainActivity.CURRENT_USER_KEY, registeredUser);
 

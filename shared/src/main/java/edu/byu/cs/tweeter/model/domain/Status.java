@@ -10,6 +10,7 @@ import java.util.Objects;
 public class Status implements Serializable {
 
     public String post;
+    public String senderAlias;
     public User user;
     public long timeStamp;
     public List<String> urls;
@@ -31,6 +32,26 @@ public class Status implements Serializable {
 
     public User getUser() {
         return user;
+    }
+
+    public void setPost(String post) {
+        this.post = post;
+    }
+
+    public String getSenderAlias() {
+        return senderAlias;
+    }
+
+    public void setSenderAlias(String senderAlias) {
+        this.senderAlias = senderAlias;
+    }
+
+    public void setUrls(List<String> urls) {
+        this.urls = urls;
+    }
+
+    public void setMentions(List<String> mentions) {
+        this.mentions = mentions;
     }
 
     public void setTimeStamp(long timeStamp) { this.timeStamp = timeStamp; }

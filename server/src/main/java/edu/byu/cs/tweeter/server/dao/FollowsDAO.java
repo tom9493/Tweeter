@@ -2,12 +2,13 @@ package edu.byu.cs.tweeter.server.dao;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.document.*;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Index;
+import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryResult;
-import edu.byu.cs.tweeter.model.domain.Status;
-import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.server.Interface.FollowsDAOInterface;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class FollowsDAO implements FollowsDAOInterface {
 
     @Override
     public boolean isFollower(String followerAlias, String followeeAlias) {
-        Item item = table.getItem().withPrimaryKey(partKey, followerAlias, sortKey, followeeAlias);
+        Item item = table.getItem(partKey, followerAlias, sortKey, followeeAlias);
         return item != null;
     }
 

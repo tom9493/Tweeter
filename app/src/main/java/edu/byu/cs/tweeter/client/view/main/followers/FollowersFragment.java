@@ -144,12 +144,14 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
          * @param user the user.
          */
         void bindUser(User user) {
-            if (user == null)
+            if (user == null) {
                 Log.e(LOG_TAG, "user is null!");
-            userAlias.setText(user.getAlias());
-            userName.setText(user.getName());
+            } else {
+                userAlias.setText(user.getAlias());
+                userName.setText(user.getName());
 
-            Picasso.get().load(user.getImageUrl()).into(userImage);
+                Picasso.get().load(user.getImageUrl()).into(userImage);
+            }
         }
 
         /**
@@ -190,7 +192,6 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
          */
         void addItems(List<User> newUsers) {
             int startInsertPosition = users.size();
-            System.out.println("These are the new Users in FollowersFragment: " + newUsers);
             users.addAll(newUsers);
             this.notifyItemRangeInserted(startInsertPosition, newUsers.size());
         }

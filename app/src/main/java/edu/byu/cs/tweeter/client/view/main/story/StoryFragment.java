@@ -11,6 +11,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -161,56 +162,63 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
          * @param status the status.
          */
         void bindStatus(Status status) {
-            DateFormat simple = new SimpleDateFormat("MMM d yyyy h:mm aaa"); // Might need the change this
-            Picasso.get().load(status.getUser().getImageUrl()).into(userImage);
-            userAlias.setText(status.getUser().getAlias());
-            userName.setText(status.getUser().getName());
-            datetime.setText(simple.format(new Date(status.getTimeStamp())));
+            if (status == null) {
+                Log.e(LOG_TAG, "status is null!");
+            } else {
+                DateFormat simple = new SimpleDateFormat("MMM d yyyy h:mm aaa"); // Might need the change this
+                Picasso.get().load(status.getUser().getImageUrl()).into(userImage);
+                userAlias.setText(status.getUser().getAlias());
+                userName.setText(status.getUser().getName());
+                datetime.setText(simple.format(new Date(status.getTimeStamp())));
 
-            // @mentions and urls clickable
-            SpannableString spannableString = new SpannableString(status.getPost());
+                // @mentions and urls clickable
+                SpannableString spannableString = new SpannableString(status.getPost());
 
-            for (String mention : status.getMentions()) {
-                ClickableSpan span = new ClickableSpan() {
-                    @Override
-                    public void onClick(@NonNull View widget) {
-                        TextView clickedMention = (TextView) widget;
-                        Spanned s = (Spanned) clickedMention.getText();
-                        int start = s.getSpanStart(this);
-                        int end = s.getSpanEnd(this);
+                if (status.getMentions() != null) {
+                    for (String mention : status.getMentions()) {
+                        ClickableSpan span = new ClickableSpan() {
+                            @Override
+                            public void onClick(@NonNull View widget) {
+                                TextView clickedMention = (TextView) widget;
+                                Spanned s = (Spanned) clickedMention.getText();
+                                int start = s.getSpanStart(this);
+                                int end = s.getSpanEnd(this);
 
-                        String clickable = s.subSequence(start, end).toString();
+                                String clickable = s.subSequence(start, end).toString();
 
 
-                        if (clickable.contains("http")) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(clickable));
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(getContext(), "Getting user's profile...", Toast.LENGTH_LONG).show();
-                            presenter.getUser(userAlias.getText().toString());
-                        }
+                                if (clickable.contains("http")) {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(clickable));
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(getContext(), "Getting user's profile...", Toast.LENGTH_LONG).show();
+                                    presenter.getUser(userAlias.getText().toString());
+                                }
+                            }
+
+                            @Override
+                            public void updateDrawState(@NotNull TextPaint ds) {
+                                super.updateDrawState(ds);
+                                ds.setColor(getResources().getColor(R.color.colorAccent));
+                                ds.setUnderlineText(false);
+                            }
+                        };
+
+                        int startIndex = status.getPost().indexOf(mention);
+                        spannableString.setSpan(span, startIndex, (startIndex + mention.length()), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     }
-
-                    @Override
-                    public void updateDrawState(@NotNull TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setColor(getResources().getColor(R.color.colorAccent));
-                        ds.setUnderlineText(false);
+                }
+                if (status.getUrls() != null) {
+                    for (String url : status.getUrls()) {
+                        int startIndex = status.getPost().indexOf(url);
+                        spannableString.setSpan(new URLSpan(url), startIndex, (startIndex + url.length()), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     }
-                };
+                }
 
-                int startIndex = status.getPost().indexOf(mention);
-                spannableString.setSpan(span, startIndex, (startIndex + mention.length()), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                post.setText(spannableString);
+                post.setClickable(true);
+                post.setMovementMethod(LinkMovementMethod.getInstance());
             }
-
-            for (String url : status.getUrls()) {
-                int startIndex = status.getPost().indexOf(url);
-                spannableString.setSpan(new URLSpan(url), startIndex, (startIndex + url.length()), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-
-            post.setText(spannableString);
-            post.setClickable(true);
-            post.setMovementMethod(LinkMovementMethod.getInstance());
         }
     }
 
