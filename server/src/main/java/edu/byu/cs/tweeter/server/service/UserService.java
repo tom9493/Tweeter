@@ -95,7 +95,7 @@ public class UserService extends ValidationService {
 
     public String hash(String password) {
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance("MDS");
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
             messageDigest.update(password.getBytes(StandardCharsets.UTF_8));
             byte[] resultByteArray = messageDigest.digest();
             StringBuilder stringBuilder = new StringBuilder();
