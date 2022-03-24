@@ -16,10 +16,12 @@ import edu.byu.cs.tweeter.server.Interface.UserDAOInterface;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.Random;
 
 public class UserService extends ValidationService {
     public UserService(AbstractFactory factory) { super(factory); }
@@ -85,7 +87,9 @@ public class UserService extends ValidationService {
 
     // MAKE THIS HASH THE PASSWORD
     public AuthToken makeAuthToken() {
-        String token = "DummyAuthToken123";
+        byte[] array = new byte[7]; // length is bounded by 7
+        new Random().nextBytes(array);
+        String token = new String(array, StandardCharsets.UTF_8);
         return new AuthToken(token, System.currentTimeMillis());
     }
 
