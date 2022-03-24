@@ -16,6 +16,9 @@ import edu.byu.cs.tweeter.server.Interface.UserDAOInterface;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 public class UserService extends ValidationService {
@@ -25,13 +28,13 @@ public class UserService extends ValidationService {
         try {
             validateLogin(request.getUsername(), request.getPassword());
 
-            User user = getUserDAO().getUser(request.getUsername(), request.getPassword());
+            User user = getUserDAO().getUser(request.getUsername(), hash(request.getPassword()));
             if (user == null) { return new LoginResponse("Incorrect login information. Try again..."); }
             AuthToken authToken = makeAuthToken();
             getAuthTokenDAO().insertAuthToken(authToken);
             return new LoginResponse(user, authToken);
         } catch (Exception ex) {
-            return new LoginResponse(ex.getMessage());
+            return new LoginResponse(ex.getMessage() + "Issue with login");
         }
     }
 
@@ -40,15 +43,13 @@ public class UserService extends ValidationService {
             validateLogin(request.getUsername(), request.getPassword());
 
             // addUser returns null if the user already exists, and is a register failure
-            User user = getUserDAO().addUser(request.getUsername(), request.getPassword(), request.getFirstName(),
+            User user = getUserDAO().addUser(request.getUsername(), hash(request.getPassword()), request.getFirstName(),
                     request.getLastName(), getImageDAO().getImageURL(request.getUsername() + "_photo.png"));
             if (user == null) { return new RegisterResponse("User with that username already exists..."); }
 
             byte[] byteArray = Base64.getDecoder().decode(request.getImage());
             InputStream stream = new ByteArrayInputStream(byteArray);
             getImageDAO().uploadImage(request.getUsername(), stream);
-
-            //user.setImageUrl(user.getImageUrl().replace("https","http"));
 
             AuthToken authToken = makeAuthToken();
             getAuthTokenDAO().insertAuthToken(authToken);
@@ -86,6 +87,24 @@ public class UserService extends ValidationService {
     public AuthToken makeAuthToken() {
         String token = "DummyAuthToken123";
         return new AuthToken(token, System.currentTimeMillis());
+    }
+
+    public String hash(String password) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("MDS");
+            messageDigest.update(password.getBytes(StandardCharsets.UTF_8));
+            byte[] resultByteArray = messageDigest.digest();
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (byte b : resultByteArray) {
+                stringBuilder.append(String.format("%02x", b));
+            }
+
+            return stringBuilder.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     UserDAOInterface getUserDAO() { return factory.getUserDAO(); }

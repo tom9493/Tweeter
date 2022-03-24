@@ -85,6 +85,7 @@ public class MainPresenter {
 
         @Override
         public void handleSuccess(boolean isFollower) {
+            System.out.println("isFollower in handleSuccess: " + isFollower);
             view.displayFollowButton(isFollower);
         }
 

@@ -87,6 +87,7 @@ public class FollowService extends PagedService {
             }
             return new IsFollowerResponse(getFollowsDAO().isFollower(request.getFollower().getAlias(),
                     request.getFollowee().getAlias()));
+
         } catch (Exception ex) {
             return new IsFollowerResponse(ex.getMessage());
         }

@@ -28,7 +28,7 @@ public class FollowsDAO implements FollowsDAOInterface {
     private final String sortKey = "followee_handle";
 
     @Override
-    public boolean isFollower(String followerAlias, String followeeAlias) {
+    public boolean isFollower(String followerAlias, String followeeAlias) throws Exception {
         Item item = table.getItem(partKey, followerAlias, sortKey, followeeAlias);
         return item != null;
     }

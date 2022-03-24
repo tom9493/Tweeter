@@ -19,10 +19,10 @@ public class UserDAO implements UserDAOInterface {
     private final String imageKey = "imageURL";
 
     @Override
-    public User addUser(String username, String password, String firstName, String lastName, String imageURL) {
+    public User addUser(String username, String hashedPassword, String firstName, String lastName, String imageURL) {
         if (getUser(username) != null) { return null; }
         Item item = new Item().withPrimaryKey(partitionKey, username)
-                .withString(passwordKey, password)
+                .withString(passwordKey, hashedPassword)
                 .withString(firstKey, firstName)
                 .withString(lastKey, lastName)
                 .withString(imageKey, imageURL);
@@ -41,9 +41,10 @@ public class UserDAO implements UserDAOInterface {
     }
 
     @Override
-    public User getUser(String username, String password) {
+    public User getUser(String username, String hashedPassword) {
         Item item = table.getItem(partitionKey, username);
-        if (item.getString(passwordKey).equals(password)) {
+        if (item == null) { return null; }
+        else if (item.getString(passwordKey).equals(hashedPassword)) {
             return new User(item.getString(firstKey), item.getString(lastKey), item.getString(partitionKey), item.getString(imageKey));
         }
         return null;
