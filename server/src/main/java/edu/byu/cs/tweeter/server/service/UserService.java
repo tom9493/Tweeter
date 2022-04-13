@@ -16,7 +16,6 @@ import edu.byu.cs.tweeter.server.Interface.UserDAOInterface;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

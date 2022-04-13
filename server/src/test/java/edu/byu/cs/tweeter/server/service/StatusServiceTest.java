@@ -14,8 +14,6 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.times;
-
 public class StatusServiceTest {
     private StoryRequest request;
     private AbstractFactory mockFactory;
