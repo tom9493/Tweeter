@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 public class AndroidTestsWorkingTest {
     @Before
     public void setup() {
+        System.out.println("Howdy");
         // Called before each test, set up any common code between tests
     }
 
