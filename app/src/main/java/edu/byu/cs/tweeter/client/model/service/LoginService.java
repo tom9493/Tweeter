@@ -19,7 +19,7 @@ import java.util.Base64;
 
 public class LoginService {
 
-    public void login(String alias, String password, LoginPresenter.LoginObserver loginObserver) {
+    public void login(String alias, String password, ServiceObserver.LogRegObserver loginObserver) {
         if (alias.charAt(0) != '@') {
             throw new IllegalArgumentException("Alias must begin with @.");
         }

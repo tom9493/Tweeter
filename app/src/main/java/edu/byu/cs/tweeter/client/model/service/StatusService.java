@@ -22,7 +22,7 @@ import java.util.List;
 
 public class StatusService {
 
-    public void getStory(AuthToken currUserAuthToken, User user, int pageSize, Status lastStatus, StoryPresenter.GetStoryObserver getStoryObserver) {
+    public void getStory(AuthToken currUserAuthToken, User user, int pageSize, Status lastStatus, ServiceObserver.GetItemsObserver getStoryObserver) {
         GetStoryTask getStoryTask = new GetStoryTask(currUserAuthToken,
                 user, pageSize, lastStatus, new GetStoryHandler(getStoryObserver));
         new ExecuteTask<>(getStoryTask);
@@ -34,7 +34,7 @@ public class StatusService {
         new ExecuteTask<>(getFeedTask);
     }
 
-    public void postStatus(String post, User currentUser, AuthToken authToken, MainPresenter.PostStatusObserver postStatusObserver) throws Exception {
+    public void postStatus(String post, User currentUser, AuthToken authToken, ServiceObserver.SuccessObserver postStatusObserver) throws Exception {
         Status newStatus = new Status(post, currentUser, System.currentTimeMillis(), parseURLs(post), parseMentions(post));
         PostStatusTask statusTask = new PostStatusTask(authToken, newStatus, System.currentTimeMillis(),
                 new PostStatusHandler(postStatusObserver));

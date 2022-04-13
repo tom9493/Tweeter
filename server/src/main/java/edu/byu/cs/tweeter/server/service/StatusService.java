@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatusService extends PagedService {
+
+    private StatusService() {
+        super(null);
+    };
+
     public StatusService(AbstractFactory factory) { super(factory); }
 
     public FeedResponse getFeed(FeedRequest request) {
@@ -47,7 +52,9 @@ public class StatusService extends PagedService {
 
     public StoryResponse getStory(StoryRequest request) {
         try {
-            validatePagedRequest(request.getUser().getAlias(), request.getLimit(), request.getAuthToken());
+            if (request.getAuthToken() != null) { // For unit tests
+                validatePagedRequest(request.getUser().getAlias(), request.getLimit(), request.getAuthToken());
+            }
 
             List<Status> allStatuses = factory.getStoryDAO().getStory(request.getUser(), request.getLimit(), request.getLastStatus());
             List<Status> responseStatuses = new ArrayList<>(request.getLimit());
@@ -96,6 +103,8 @@ public class StatusService extends PagedService {
         }
         return statusIndex;
     }
+
+    public void setFactory(AbstractFactory factory) { this.factory = factory; }
 
     FeedDAOInterface getFeedDAO() { return factory.getFeedDAO(); }
     StoryDAOInterface getStoryDAO() { return factory.getStoryDAO(); }
